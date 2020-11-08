@@ -1,5 +1,5 @@
 <template lang="html">
-    <v-card>
+    <v-card elevation="5">
         <v-card-title>{{ program.TC_PGM_NAME }}</v-card-title>
         <v-card-subtitle>{{ program.TC_DISTRICT }} - {{ program.TC_VENUE }}</v-card-subtitle>
         <v-card-text>
