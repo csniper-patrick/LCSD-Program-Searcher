@@ -2,7 +2,7 @@
     <v-sheet color="white" max-height="100vh" class="overflow-y-auto overflow-x-hidden">
         <v-container fluid>
             <v-row>
-                <v-col v-for="item in search_result" :key="item.PGM_CODE" cols='12' sm='6' md='6' lg='4' xl='3'>
+                <v-col v-for="item in this.$store.state.filtered_program_list" :key="item.PGM_CODE" cols='12' sm='6' md='6' lg='4' xl='3'>
                     <v-lazy
                         :options="{
                             threshold: .5
@@ -22,8 +22,6 @@ import program_card from './program_card.vue';
 
 export default {
     name: "result_panel",
-    
-    props: ['search_result'],
     components: {
         program_card,
     },

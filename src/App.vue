@@ -7,7 +7,7 @@
                     <search_panel/>
                 </v-col>
                 <v-col  cols='12' sm='12' md='8' lg='9' xl='10'>
-                    <result_panel v-bind:search_result="raw_list"/>
+                    <result_panel/>
                 </v-col>
             </v-row>
         </v-main>
@@ -17,7 +17,6 @@
 <script>
 import search_panel from './components/search_panel.vue';
 import result_panel from './components/result_panel.vue';
-//import prog_list_local from '../public/leisure_prog.json';
 import axios from 'axios';
 
 export default {
@@ -29,8 +28,6 @@ export default {
     },
     
     data: () => ({
-        filtered_list: [],
-        raw_list: [],
         loading: true,
     }),
     
@@ -38,8 +35,8 @@ export default {
         var self = this;
         axios.get('/lcsd/datagovhk/event/leisure_prog.json')
         .then(function (res) {
-            console.log(res.data);
-            self.raw_list=res.data;
+            self.$store.dispatch("set_raw_program_list", res.data);
+            self.$store.dispatch("set_filtered_program_list", res.data);
             self.loading=false;
         })
         .catch(function (error) {
