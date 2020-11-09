@@ -49,3 +49,7 @@ export default {
     },
 };
 </script>
+
+<style lang="css">
+html { overflow-y: hidden;}
+</style>
