@@ -27,13 +27,13 @@ export default {
         search_panel,
         result_panel,
     },
-    data(){
-        return {
-            filtered_list: [],
-            raw_list: [],
-            loading: true,
-        }
-    },
+    
+    data: () => ({
+        filtered_list: [],
+        raw_list: [],
+        loading: true,
+    }),
+    
     mounted () {
         var self = this;
         axios.get('/lcsd/datagovhk/event/leisure_prog.json')
