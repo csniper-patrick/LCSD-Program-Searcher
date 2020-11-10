@@ -22,7 +22,9 @@
                                 item-text="value"
                                 item-value="key"
                                 label="Type"
-                                hide-details="auto">
+                                hide-details="auto"
+                                auto-select-first
+                                :filter="lower_case_compare">
                             </v-autocomplete>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
@@ -32,7 +34,9 @@
                                 item-text="value"
                                 item-value="key"
                                 label="District"
-                                hide-details="auto">
+                                hide-details="auto"
+                                auto-select-first
+                                :filter="lower_case_compare">
                             </v-autocomplete>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
@@ -42,28 +46,30 @@
                                 label="Venue"
                                 item-text="value"
                                 item-value="key"
-                                hide-details="auto">
+                                hide-details="auto"
+                                auto-select-first
+                                :filter="lower_case_compare">
                             </v-autocomplete>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_enroll"
                                 :items="unique_enroll"
                                 item-text="value"
                                 item-value="key"
                                 label="Enroll"
                                 hide-details="auto">
-                            </v-autocomplete>
+                            </v-select>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_target"
                                 :items="unique_target"
                                 item-text="value"
                                 item-value="key"
                                 label="Target"
                                 hide-details="auto">
-                            </v-autocomplete>
+                            </v-select>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
                             <v-text-field v-model="selected_age" label="Age" dense outlined hide-details="auto" type="number" clearable></v-text-field>
@@ -271,6 +277,9 @@ export default {
             }
             //console.log(selected_list);
             self.$store.dispatch("set_filtered_program_list", selected_list);
+        },
+        lower_case_compare: function(item, queryText, itemText){
+            return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1
         },
     },
 }
