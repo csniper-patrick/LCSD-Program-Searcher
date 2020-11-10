@@ -2,10 +2,11 @@
     <v-container>
         <v-text-field
             v-model="query"
-            label="Solo"
-            placeholder="Search"
+            label="Search"
+            placeholder="keywords"
             append-icon="mdi-menu-down"
-            solo
+            outlined
+            rounded
             clearable
             hide-details="auto"
             @click:append="expanded =! expanded">
@@ -15,86 +16,57 @@
                 <v-card-text>
                     <v-row>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select 
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_type" 
                                 :items="unique_type"
                                 item-text="value"
                                 item-value="key"
                                 label="Type"
-                                dense
-                                multiple
-                                small-chips
-                                deletable-chips
-                                outlined
-                                hide-details="auto"
-                                clearable></v-select>
+                                hide-details="auto">
+                            </v-select>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_district"
                                 :items="unique_district"
                                 item-text="value"
                                 item-value="key"
                                 label="District"
-                                dense
-                                multiple
-                                small-chips
-                                deletable-chips
-                                outlined
-                                hide-details="auto"
-                                clearable>
+                                hide-details="auto">
                             </v-select>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_venue"
                                 :items="unique_venue"
                                 label="Venue"
                                 item-text="value"
                                 item-value="key"
-                                dense
-                                multiple
-                                small-chips
-                                deletable-chips
-                                outlined
-                                hide-details="auto"
-                                clearable>
+                                hide-details="auto">
                             </v-select>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_enroll"
                                 :items="unique_enroll"
                                 item-text="value"
                                 item-value="key"
                                 label="Enroll"
-                                dense
-                                multiple
-                                small-chips
-                                deletable-chips
-                                outlined
-                                hide-details="auto"
-                                clearable>
+                                hide-details="auto">
                             </v-select>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_target"
                                 :items="unique_target"
                                 item-text="value"
                                 item-value="key"
                                 label="Target"
-                                dense
-                                multiple
-                                small-chips
-                                deletable-chips
-                                outlined
-                                hide-details="auto"
-                                clearable>
+                                hide-details="auto">
                             </v-select>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-text-field label="Age" dense outlined hide-details="auto" type="number" clearable></v-text-field>
+                            <v-text-field v-model="selected_age" label="Age" dense outlined hide-details="auto" type="number" clearable></v-text-field>
                         </v-col>
                     </v-row>
                     <v-spacer  class="d-flex justify-end pa-1 ma-0">
@@ -119,6 +91,7 @@ export default {
         selected_venue: [],
         selected_enroll: [],
         selected_target: [],
+        selected_age: null,
         query: "",
     }),
     mounted(){
@@ -232,7 +205,8 @@ export default {
         selected_venue: async function(){this.select_program()},
         selected_enroll: async function(){this.select_program()},
         selected_target: async function(){this.select_program()},
-        keywords: async function(){this.select_program();},
+        keywords: async function(){this.select_program()},
+        selected_age: async function(){this.select_program()},
     },
     methods: {
         select_program: async function(){
@@ -287,6 +261,12 @@ export default {
                         }
                     }
                     return false;
+                } );
+            }
+            //select Age
+            if(this.selected_age!=null && this.selected_age >=0){
+                selected_list = selected_list.filter( (program) => {
+                    return Number(program.MIN_AGE)<=this.selected_age && this.selected_age<=Number(program.MAX_AGE);
                 } );
             }
             //console.log(selected_list);
