@@ -1,6 +1,6 @@
 <template lang="html">
     <v-card elevation="5">
-        <v-card-title>{{ program_name }}</v-card-title>
+        <v-card-title><strong>{{ program_name }}</strong></v-card-title>
         <v-card-subtitle>{{ program_district }} - {{ program_venue }}</v-card-subtitle>
         <v-card-text>
             <ul>
