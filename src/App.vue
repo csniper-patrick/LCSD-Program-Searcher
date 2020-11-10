@@ -3,10 +3,10 @@
         <v-main>
             <v-progress-linear v-if="loading" indeterminate color="primary"></v-progress-linear>
             <v-row>
-                <v-col cols='12' sm='12' md='4' lg='3' xl='2'>
+                <v-col class="ma-0" cols='12' sm='12' md='4' lg='3' xl='2'>
                     <search_panel/>
                 </v-col>
-                <v-col  cols='12' sm='12' md='8' lg='9' xl='10'>
+                <v-col class="ma-0" cols='12' sm='12' md='8' lg='9' xl='10'>
                     <result_panel/>
                 </v-col>
             </v-row>
