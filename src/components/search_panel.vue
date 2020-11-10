@@ -16,54 +16,54 @@
                 <v-card-text>
                     <v-row>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select dense multiple small-chips deletable-chips outlined clearable
+                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_type" 
                                 :items="unique_type"
                                 item-text="value"
                                 item-value="key"
                                 label="Type"
                                 hide-details="auto">
-                            </v-select>
+                            </v-autocomplete>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select dense multiple small-chips deletable-chips outlined clearable
+                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_district"
                                 :items="unique_district"
                                 item-text="value"
                                 item-value="key"
                                 label="District"
                                 hide-details="auto">
-                            </v-select>
+                            </v-autocomplete>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select dense multiple small-chips deletable-chips outlined clearable
+                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_venue"
                                 :items="unique_venue"
                                 label="Venue"
                                 item-text="value"
                                 item-value="key"
                                 hide-details="auto">
-                            </v-select>
+                            </v-autocomplete>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select dense multiple small-chips deletable-chips outlined clearable
+                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_enroll"
                                 :items="unique_enroll"
                                 item-text="value"
                                 item-value="key"
                                 label="Enroll"
                                 hide-details="auto">
-                            </v-select>
+                            </v-autocomplete>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                            <v-select dense multiple small-chips deletable-chips outlined clearable
+                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_target"
                                 :items="unique_target"
                                 item-text="value"
                                 item-value="key"
                                 label="Target"
                                 hide-details="auto">
-                            </v-select>
+                            </v-autocomplete>
                         </v-col>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
                             <v-text-field v-model="selected_age" label="Age" dense outlined hide-details="auto" type="number" clearable></v-text-field>
