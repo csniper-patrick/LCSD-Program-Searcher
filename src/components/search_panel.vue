@@ -1,52 +1,52 @@
 <template lang="html">
     <v-container>
-        <v-form>
-            <v-text-field
-                v-model="query"
-                label="Solo"
-                placeholder="Search"
-                prepend-inner-icon="mdi-translate"
-                append-icon="mdi-menu-down"
-                solo
-                clearable
-                hide-details="auto"
-                @click:append="expanded =! expanded"
-                @click:prepend-inner="use_zh =! use_zh">
-            </v-text-field>
-            <v-expand-transition>
-                <v-card v-if="(expanded || this.$vuetify.breakpoint.mdAndUp)">
-                    <v-card-text>
-                        <v-row>
-                            <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                                <v-select 
-                                    v-model="selected_type" 
-                                    :items="unique_type"
-                                    item-text="value"
-                                    item-value="key"
-                                    label="Type"
-                                    dense
-                                    multiple
-                                    chips
-                                    outlined
-                                    hide-details="auto"
-                                    clearable></v-select>
-                            </v-col>
-                            <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                                <v-select
-                                    v-model="selected_district"
-                                    :items="unique_district"
-                                    item-text="value"
-                                    item-value="key"
-                                    label="District"
-                                    dense
-                                    multiple
-                                    chips
-                                    outlined
-                                    hide-details="auto"
-                                    clearable></v-select>
-                            </v-col>
-                            <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                                <v-select
+        <v-text-field
+            v-model="query"
+            label="Solo"
+            placeholder="Search"
+            append-icon="mdi-menu-down"
+            solo
+            clearable
+            hide-details="auto"
+            @click:append="expanded =! expanded">
+        </v-text-field>
+        <v-expand-transition>
+            <v-card v-if="(expanded || this.$vuetify.breakpoint.mdAndUp)">
+                <v-card-text>
+                    <v-row>
+                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                            <v-select 
+                                v-model="selected_type" 
+                                :items="unique_type"
+                                item-text="value"
+                                item-value="key"
+                                label="Type"
+                                dense
+                                multiple
+                                small-chips
+                                deletable-chips
+                                outlined
+                                hide-details="auto"
+                                clearable></v-select>
+                        </v-col>
+                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                            <v-select
+                                v-model="selected_district"
+                                :items="unique_district"
+                                item-text="value"
+                                item-value="key"
+                                label="District"
+                                dense
+                                multiple
+                                small-chips
+                                deletable-chips
+                                outlined
+                                hide-details="auto"
+                                clearable>
+                            </v-select>
+                        </v-col>
+                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                            <v-select
                                 v-model="selected_venue"
                                 :items="unique_venue"
                                 label="Venue"
@@ -54,13 +54,15 @@
                                 item-value="key"
                                 dense
                                 multiple
-                                chips
+                                small-chips
+                                deletable-chips
                                 outlined
                                 hide-details="auto"
-                                clearable></v-select>
-                            </v-col>
-                            <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                                <v-select
+                                clearable>
+                            </v-select>
+                        </v-col>
+                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                            <v-select
                                 v-model="selected_enroll"
                                 :items="unique_enroll"
                                 item-text="value"
@@ -68,13 +70,15 @@
                                 label="Enroll"
                                 dense
                                 multiple
-                                chips
+                                small-chips
+                                deletable-chips
                                 outlined
                                 hide-details="auto"
-                                clearable></v-select>
-                            </v-col>
-                            <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                                <v-select
+                                clearable>
+                            </v-select>
+                        </v-col>
+                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                            <v-select
                                 v-model="selected_target"
                                 :items="unique_target"
                                 item-text="value"
@@ -82,19 +86,24 @@
                                 label="Target"
                                 dense
                                 multiple
-                                chips
+                                small-chips
+                                deletable-chips
                                 outlined
                                 hide-details="auto"
-                                clearable></v-select>
-                            </v-col>
-                            <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
-                                <v-text-field label="Age" dense outlined hide-details="auto" type="integer" clearable></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-            </v-expand-transition>
-        </v-form>
+                                clearable>
+                            </v-select>
+                        </v-col>
+                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                            <v-text-field label="Age" dense outlined hide-details="auto" type="number" clearable></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-spacer  class="d-flex justify-end pa-1 ma-0">
+                        <v-switch class="pa-0 ma-0" v-model="use_zh" inset label="ENG - 中">
+                        </v-switch>
+                    </v-spacer>
+                </v-card-text>
+            </v-card>
+        </v-expand-transition>
     </v-container>
 </template>
 
@@ -119,7 +128,8 @@ export default {
             return this.$store.state.raw_program_list;
         },
         keywords: function(){
-            return (this.query !== null)? this.query.split(" "):[];
+            var list = (this.query !== null)? this.query.split(","):[];
+            return list.map( (keyword) => { return keyword.trim() } );
         },
         unique_type: function(){
             var T=this;
@@ -216,6 +226,71 @@ export default {
     watch: {
         use_zh: function(val){
             this.$store.commit('switch_lang', val);
+        },
+        selected_type: async function(){this.select_program()},
+        selected_district: async function(){this.select_program()},
+        selected_venue: async function(){this.select_program()},
+        selected_enroll: async function(){this.select_program()},
+        selected_target: async function(){this.select_program()},
+        keywords: async function(){this.select_program();},
+    },
+    methods: {
+        select_program: async function(){
+            var self = this;
+            var selected_list=this.raw_program_list;
+            var c;
+            //select by type
+            if(this.selected_type.length!=0){
+                selected_list = selected_list.filter( (program) => {
+                    for (c of this.selected_type) {
+                        if(c.localeCompare(program.EN_ACT_TYPE_NAME)==0) return true;
+                    }
+                    return false;
+                } );
+            }
+            //select by district or venue
+            if(this.selected_venue.length!=0 || this.selected_district.length!=0){
+                selected_list = selected_list.filter( (program) => {
+                    for (c of this.selected_district) {
+                        if(c.localeCompare(program.EN_DISTRICT)==0) return true;
+                    }
+                    for (c of this.selected_venue) {
+                        if(c.localeCompare(program.EN_VENUE)==0) return true;
+                    }
+                    return false;
+                } );
+            }
+            //select by enroll method
+            if(this.selected_enroll.length!=0){
+                selected_list = selected_list.filter( (program) => {
+                    for (c of this.selected_enroll) {
+                        if(c.localeCompare(program.ENROL_METHOD)==0) return true;
+                    }
+                    return false;
+                } );
+            }
+            //select by target
+            if(this.selected_target.length!=0){
+                selected_list = selected_list.filter( (program) => {
+                    for (c of this.selected_target) {
+                        if(c.localeCompare(program.MIS_TARGET_GRP_Code)==0) return true;
+                    }
+                    return false;
+                } );
+            }
+            //select by keyword
+            if(this.keywords.length!=0){
+                selected_list = selected_list.filter( (program) => {
+                    for (c of this.keywords) {
+                        for (const property in program){
+                            if( (typeof program[property]) === 'string' && (program[property].includes(c)) ) return true;
+                        }
+                    }
+                    return false;
+                } );
+            }
+            //console.log(selected_list);
+            self.$store.dispatch("set_filtered_program_list", selected_list);
         },
     },
 }

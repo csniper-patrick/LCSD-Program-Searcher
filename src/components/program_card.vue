@@ -4,8 +4,8 @@
         <v-card-subtitle>{{ program_district }} - {{ program_venue }}</v-card-subtitle>
         <v-card-text>
             <ul>
-                <li>Code: {{ program.PGM_CODE }}</li>
-                <li>Type: {{ program_type }}</li>
+                <li>Code: {{ program.PGM_CODE }} Type: {{ program_type }}</li>
+                <li>Age: {{ program.MIN_AGE }} - {{ program.MAX_AGE }}
                 <li>Date: <br>{{ program.PGM_START_DATE }} - {{ program.PGM_END_DATE }}</li>
                 <li>Time: <br>{{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }} {{ program.EN_DAY }}</li>
             </ul>
