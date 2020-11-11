@@ -3,12 +3,10 @@
         <v-main>
             <v-progress-linear v-if="loading" indeterminate color="primary"></v-progress-linear>
             <v-row class="d-flex justify-end">
-                <v-col cols='12' sm='12' md='4' lg='4' xl='4'>
+                <v-col class="py-0 ma-0" cols='12' sm='12' md='4' lg='4' xl='4'>
                     <search_panel/>
                 </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols='12' sm='12' md='12' lg='12' xl='12'>
+                <v-col class="py-0 ma-0" cols='12' sm='12' md='12' lg='12' xl='12'>
                     <result_panel/>
                 </v-col>
             </v-row>

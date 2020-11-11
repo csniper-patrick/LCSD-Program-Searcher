@@ -10,11 +10,17 @@
                     v-on="on"
                     label="Search"
                     placeholder="keywords"
+                    append-icon="mdi-filter-menu"
                     outlined
                     rounded
                     clearable
                     hide-details="auto">
                 </v-text-field>
+                <v-spacer class="d-flex justify-end">
+                    <v-switch inset dese hide-details
+                        label="ENG - 中" class="pa-0 ma-0" v-model="use_zh">
+                    </v-switch>
+                </v-spacer>
             </template>
             <v-card :width="($vuetify.breakpoint.mdAndUp)?'33vw':'100vw'">
                 <v-card-text>
@@ -55,7 +61,7 @@
                                 :filter="lower_case_compare">
                             </v-autocomplete>
                         </v-col>
-                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                        <v-col cols='6' sm='4' md='6' lg='6' xl='6'>
                             <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_enroll"
                                 :items="unique_enroll"
@@ -65,7 +71,7 @@
                                 hide-details="auto">
                             </v-select>
                         </v-col>
-                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                        <v-col cols='6' sm='4' md='6' lg='6' xl='6'>
                             <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_target"
                                 :items="unique_target"
@@ -75,20 +81,13 @@
                                 hide-details="auto">
                             </v-select>
                         </v-col>
-                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                        <v-col cols='6' sm='4' md='6' lg='6' xl='6'>
                             <v-text-field v-model="selected_age" label="Age" dense outlined hide-details="auto" type="number" clearable></v-text-field>
                         </v-col>
                     </v-row>
-                    <v-spacer  class="d-flex justify-end pa-1 ma-0">
-                        <v-switch class="pa-0 ma-0" v-model="use_zh" inset label="ENG - 中">
-                        </v-switch>
-                    </v-spacer>
                 </v-card-text>
             </v-card>
         </v-menu>
-        <v-expand-transition>
-            
-        </v-expand-transition>
     </v-container>
 </template>
 
