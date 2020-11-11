@@ -2,11 +2,13 @@
     <v-app>
         <v-main>
             <v-progress-linear v-if="loading" indeterminate color="primary"></v-progress-linear>
-            <v-row>
-                <v-col cols='12' sm='12' md='4' lg='3' xl='2'>
+            <v-row class="d-flex justify-end">
+                <v-col cols='12' sm='12' md='4' lg='4' xl='4'>
                     <search_panel/>
                 </v-col>
-                <v-col cols='12' sm='12' md='8' lg='9' xl='10'>
+            </v-row>
+            <v-row>
+                <v-col cols='12' sm='12' md='12' lg='12' xl='12'>
                     <result_panel/>
                 </v-col>
             </v-row>
@@ -33,10 +35,10 @@ export default {
     
     mounted () {
         var self = this;
-        const cors_anywhere='https://cors-anywhere.herokuapp.com/';
-        //const api_proxy='/lcsd';
-        const prog_json='https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json';
-        axios.get(cors_anywhere+prog_json)
+        //const cors_anywhere='https://cors-anywhere.herokuapp.com/';
+        const prog_json_proxy='/lcsd/datagovhk/event/leisure_prog.json';
+        //const prog_json='https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json';
+        axios.get(prog_json_proxy)
         .then(function (res) {
             self.$store.dispatch("set_raw_program_list", res.data);
             self.$store.dispatch("set_filtered_program_list", res.data);

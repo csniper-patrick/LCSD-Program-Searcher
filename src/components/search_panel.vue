@@ -1,18 +1,22 @@
 <template lang="html">
     <v-container>
-        <v-text-field
-            v-model="query"
-            label="Search"
-            placeholder="keywords"
-            append-icon="mdi-menu-down"
-            outlined
-            rounded
-            clearable
-            hide-details="auto"
-            @click:append="expanded =! expanded">
-        </v-text-field>
-        <v-expand-transition>
-            <v-card v-if="(expanded || this.$vuetify.breakpoint.mdAndUp)">
+        <v-menu
+            v-model="menu"
+            :close-on-content-click="false"
+            offset-y>
+            <template v-slot:activator="{ on }">
+                <v-text-field
+                    v-model="query"
+                    v-on="on"
+                    label="Search"
+                    placeholder="keywords"
+                    outlined
+                    rounded
+                    clearable
+                    hide-details="auto">
+                </v-text-field>
+            </template>
+            <v-card :width="($vuetify.breakpoint.mdAndUp)?'33vw':'100vw'">
                 <v-card-text>
                     <v-row>
                         <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
@@ -81,6 +85,9 @@
                     </v-spacer>
                 </v-card-text>
             </v-card>
+        </v-menu>
+        <v-expand-transition>
+            
         </v-expand-transition>
     </v-container>
 </template>
