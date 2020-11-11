@@ -33,7 +33,10 @@ export default {
     
     mounted () {
         var self = this;
-        axios.get('/lcsd/datagovhk/event/leisure_prog.json')
+        const cors_anywhere='https://cors-anywhere.herokuapp.com/';
+        //const api_proxy='/lcsd';
+        const prog_json='https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json';
+        axios.get(cors_anywhere+prog_json)
         .then(function (res) {
             self.$store.dispatch("set_raw_program_list", res.data);
             self.$store.dispatch("set_filtered_program_list", res.data);
