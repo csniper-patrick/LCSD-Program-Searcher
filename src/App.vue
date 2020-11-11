@@ -35,10 +35,9 @@ export default {
     
     mounted () {
         var self = this;
-        //const cors_anywhere='https://cors-anywhere.herokuapp.com/';
-        const prog_json_proxy='/lcsd/datagovhk/event/leisure_prog.json';
-        //const prog_json='https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json';
-        axios.get(prog_json_proxy)
+        //const prog_json='/lcsd/datagovhk/event/leisure_prog.json';
+        const prog_json='https://cors-anywhere.herokuapp.com/https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json';
+        axios.get(prog_json, { headers: { 'X-Requested-With' : "XMLHttpRequest"} })
         .then(function (res) {
             self.$store.dispatch("set_raw_program_list", res.data);
             self.$store.dispatch("set_filtered_program_list", res.data);

@@ -11,7 +11,7 @@
                     v-on="on"
                     label="Search"
                     placeholder="keywords"
-                    append-icon="mdi-filter-menu"
+                    append-icon="mdi-magnify"
                     outlined
                     rounded
                     clearable

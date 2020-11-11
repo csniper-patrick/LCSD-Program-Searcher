@@ -6,8 +6,9 @@
             <ul>
                 <li>Code: {{ program.PGM_CODE }} Type: {{ program_type }}</li>
                 <li>Age: {{ program.MIN_AGE }} - {{ program.MAX_AGE }}
-                <li>Date: <br>{{ program.PGM_START_DATE }} - {{ program.PGM_END_DATE }}</li>
-                <li>Time: <br>{{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }} {{ program.EN_DAY }}</li>
+                <li>Enroll: {{ program_enroll_start_date }} - {{ program_enroll_end_date }}</li>
+                <li>Date: {{ program_start_date }} - {{ program_end_date }}</li>
+                <li>Time: {{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }} {{ program.EN_DAY }}</li>
             </ul>
         </v-card-text>
     </v-card>
@@ -32,6 +33,18 @@ export default {
         },
         program_type: function (){
             return (this.lang_zh)?this.program.TC_ACT_TYPE_NAME:this.program.EN_ACT_TYPE_NAME;
+        },
+        program_start_date: function (){
+            return this.program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
+        },
+        program_end_date: function (){
+            return this.program.PGM_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
+        },
+        program_enroll_start_date: function (){
+            return this.program.ENROL_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
+        },
+        program_enroll_end_date: function (){
+            return this.program.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
         },
     },
 }
