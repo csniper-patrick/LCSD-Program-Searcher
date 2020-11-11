@@ -1,15 +1,17 @@
 <template>
     <v-app>
-        <v-main>
-            <v-progress-linear v-if="loading" indeterminate color="primary"></v-progress-linear>
-            <v-row class="d-flex justify-end">
+        <v-app-bar color="accent" class="py-0 ma-0" dense prominent app>
+            <v-row class="d-flex justify-end" >
                 <v-col class="py-0 ma-0" cols='12' sm='12' md='4' lg='4' xl='4'>
                     <search_panel/>
                 </v-col>
-                <v-col class="py-0 ma-0" cols='12' sm='12' md='12' lg='12' xl='12'>
-                    <result_panel/>
-                </v-col>
             </v-row>
+        </v-app-bar>
+        <v-main>
+            <v-progress-linear v-if="loading" indeterminate color="primary"></v-progress-linear>
+            <v-container class="py-0 ma-0 d-flex flex-column flex-grow-1" fluid>
+                <result_panel/>
+            </v-container>
         </v-main>
     </v-app>
 </template>
@@ -51,5 +53,4 @@ export default {
 </script>
 
 <style lang="css">
-html { overflow-y: hidden;}
 </style>

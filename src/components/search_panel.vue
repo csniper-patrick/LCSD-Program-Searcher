@@ -6,6 +6,7 @@
             offset-y>
             <template v-slot:activator="{ on }">
                 <v-text-field
+                    background-color="white"
                     v-model="query"
                     v-on="on"
                     label="Search"
@@ -18,14 +19,17 @@
                 </v-text-field>
                 <v-spacer class="d-flex justify-end">
                     <v-switch inset dese hide-details
-                        label="ENG - 中" class="pa-0 ma-0" v-model="use_zh">
+                        label="ENG - 中"
+                        class="pa-0 ma-0"
+                        color="white"
+                        v-model="use_zh">
                     </v-switch>
                 </v-spacer>
             </template>
             <v-card :width="($vuetify.breakpoint.mdAndUp)?'33vw':'100vw'">
                 <v-card-text>
                     <v-row>
-                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                        <v-col cols='12' sm='4' md='12' lg='12' xl='12'>
                             <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_type" 
                                 :items="unique_type"
@@ -37,7 +41,7 @@
                                 :filter="lower_case_compare">
                             </v-autocomplete>
                         </v-col>
-                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                        <v-col cols='12' sm='4' md='12' lg='12' xl='12'>
                             <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_district"
                                 :items="unique_district"
@@ -49,7 +53,7 @@
                                 :filter="lower_case_compare">
                             </v-autocomplete>
                         </v-col>
-                        <v-col cols='6' sm='4' md='12' lg='12' xl='12'>
+                        <v-col cols='12' sm='4' md='12' lg='12' xl='12'>
                             <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_venue"
                                 :items="unique_venue"
