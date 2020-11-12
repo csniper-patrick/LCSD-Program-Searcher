@@ -1,0 +1,22 @@
+{
+    "D": {
+        "zh":"網上康體通(先到先得)",
+        "en":"Internet (first come first served)"
+    },
+    "B": {
+        "zh":"抽籤",
+        "en":"Ballot"
+    },
+    "S": {
+        "zh":"先到先得",
+        "en":"First-come-first-served"
+    },
+    "M": {
+        "zh":"本區辦事處/區內指定場地(先到先得)",
+        "en":"Organizing District Office/Designated Venues(First come first served)"
+    },
+    "W": {
+        "zh":"即場報名",
+        "en":"Walk-in"
+    }
+}

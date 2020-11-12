@@ -123,6 +123,9 @@
 </template>
 
 <script>
+import target_dict from '../target_dict.json';
+import enroll_dict from '../enroll_dict.json';
+
 export default {
     name: "search_panel",
     props: ['raw_list'],
@@ -182,21 +185,7 @@ export default {
                 return self.indexOf(value) === index;
             });
             return code.map( function(c){
-                if (c.localeCompare("D")==0) {
-                    return { key: c, value: (T.use_zh)?"網上康體通(先到先得)":"Internet (first come first served)"};
-                }
-                if (c.localeCompare("B")==0) {
-                    return { key: c, value: (T.use_zh)?"抽籤":"Ballot"};
-                }
-                if (c.localeCompare("S")==0) {
-                    return { key: c, value: (T.use_zh)?"先到先得":"First-come-first-served"};
-                }
-                if (c.localeCompare("M")==0) {
-                    return { key: c, value: (T.use_zh)?"本區辦事處/區內指定場地(先到先得)":"Organizing District Office/Designated Venues(First come first served)"};
-                }
-                if (c.localeCompare("W")==0) {
-                    return { key: c, value: (T.use_zh)?"即場報名":"Walk-in"};
-                }
+                return (T.use_zh)? enroll_dict[c]['zh']:enroll_dict[c]['en'];
             } );
         },
         unique_target: function(){
@@ -205,39 +194,7 @@ export default {
                 return self.indexOf(value) === index;
             });
             return code.map( function(c){
-                if (c.localeCompare("GENERAL 3")==0) {
-                    return { key: c, value: (T.use_zh)?"任何對象":"Any Person"};
-                }
-                if (c.localeCompare("OLDER PERSONS 3")==0) {
-                    return { key: c, value: (T.use_zh)?"長者":"Elderly"};
-                }
-                if (c.localeCompare("DISABILITIES 10")==0) {
-                    return { key: c, value: (T.use_zh)?"殘疾人士 ":"Persons with Disabilities"};
-                }
-                if (c.localeCompare("DISABILITIES_all")==0) {
-                    return { key: c, value: (T.use_zh)?"全部殘疾人士":"All programmes for Persons with Disabilities"};
-                }
-                if (c.localeCompare("DISABILITIES 2")==0) {
-                    return { key: c, value: (T.use_zh)?"視障人士":"Persons with Visual Impairment"};
-                }
-                if (c.localeCompare("DISABILITIES 4")==0) {
-                    return { key: c, value: (T.use_zh)?"聽障人士":"Persons withHearing Impairment"};
-                }
-                if (c.localeCompare("DISABILITIES 6")==0) {
-                    return { key: c, value: (T.use_zh)?"智障人士":"Persons with Intellectual Disability"};
-                }
-                if (c.localeCompare("DISABILITIES 9")==0) {
-                    return { key: c, value: (T.use_zh)?"自閉症人士":"Persons with Autism"};
-                }
-                if (c.localeCompare("DISABILITIES 3")==0) {
-                    return { key: c, value: (T.use_zh)?" 器官殘障人士/長期病患者":"Persons with Visceral Disability / Chronic Illness"};
-                }
-                if (c.localeCompare("DISABILITIES 7")==0) {
-                    return { key: c, value: (T.use_zh)?"肢體傷殘人士":"Persons with Physical Disability"};
-                }
-                if (c.localeCompare("DISABILITIES 5")==0) {
-                    return { key: c, value: (T.use_zh)?"精神病康復者":"Ex-mentally Ill Persons"};
-                }
+                return (T.use_zh)? target_dict[c]['zh']:target_dict[c]['en'];
             } );
         },
         formated_time_range: function(){

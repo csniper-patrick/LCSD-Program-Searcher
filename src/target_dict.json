@@ -1,0 +1,46 @@
+{
+    "GENERAL 3": {
+        "zh":"任何對象",
+        "en":"Any Person"
+    },
+    "OLDER PERSONS 3": {
+        "zh":"長者",
+        "en":"Elderly"
+    },
+    "DISABILITIES 10": {
+        "zh":"殘疾人士 ",
+        "en":"Persons with Disabilities"
+    },
+    "DISABILITIES_all": {
+        "zh":"全部殘疾人士",
+        "en":"All programmes for Persons with Disabilities"
+    },
+    "DISABILITIES 2": {
+        "zh":"視障人士",
+        "en":"Persons with Visual Impairment"
+    },
+    "DISABILITIES 4": {
+        "zh":"聽障人士",
+        "en":"Persons withHearing Impairment"
+    },
+    "DISABILITIES 6": {
+        "zh":"智障人士",
+        "en":"Persons with Intellectual Disability"
+    },
+    "DISABILITIES 9": {
+        "zh":"自閉症人士",
+        "en":"Persons with Autism"
+    },
+    "DISABILITIES 3": {
+        "zh":"器官殘障人士/長期病患者",
+        "en":"Persons with Visceral Disability / Chronic Illness"
+    },
+    "DISABILITIES 7": {
+        "zh":"肢體傷殘人士",
+        "en":"Persons with Physical Disability"
+    },
+    "DISABILITIES 5": {
+        "zh":"精神病康復者",
+        "en":"Ex-mentally Ill Persons"
+    }
+}
