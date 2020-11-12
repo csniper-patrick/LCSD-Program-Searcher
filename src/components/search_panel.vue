@@ -3,7 +3,8 @@
         <v-menu
             v-model="menu"
             :close-on-content-click="false"
-            offset-y>
+            offset-y
+            bottom>
             <template v-slot:activator="{ on }">
                 <v-text-field
                     background-color="white"
@@ -89,6 +90,32 @@
                             <v-text-field v-model="selected_age" label="Age" dense outlined hide-details="auto" type="number" clearable></v-text-field>
                         </v-col>
                     </v-row>
+                    <v-divider></v-divider>
+                    <v-chip-group
+                        active-class="primary--text"
+                        v-model="selected_weekday"
+                        column
+                        multiple>
+                        <v-chip
+                            v-for="tag in ['SUN','MON','TUE','WED','THU','FRI','SAT']"
+                            :key="tag"
+                            :filter="$vuetify.breakpoint.mdAndUp"
+                            dark
+                            small>
+                            {{ tag }}
+                        </v-chip>
+                    </v-chip-group>
+                    <v-row class="px-3">
+                        <v-chip>
+                            {{ formated_time_range[0] }}
+                        </v-chip>
+                        <v-range-slider min=0 max=1440 step=30 
+                            ticks v-model="selected_time_range">
+                        </v-range-slider>
+                        <v-chip>
+                            {{ formated_time_range[1] }}
+                        </v-chip>
+                    </v-row>
                 </v-card-text>
             </v-card>
         </v-menu>
@@ -107,6 +134,8 @@ export default {
         selected_venue: [],
         selected_enroll: [],
         selected_target: [],
+        selected_weekday: [0, 1, 2, 3, 4, 5, 6],
+        selected_time_range: [0, 1440],
         selected_age: null,
         query: "",
     }),
@@ -211,6 +240,12 @@ export default {
                 }
             } );
         },
+        formated_time_range: function(){
+            var min = String(Math.floor(this.selected_time_range[0]/60)).padStart(2, '0') + ':' + String(Math.floor(this.selected_time_range[0]%60)).padStart(2, '0');
+            var max = String(Math.floor(this.selected_time_range[1]/60)).padStart(2, '0') + ':' + String(Math.floor(this.selected_time_range[1]%60)).padStart(2, '0');
+            console.log([min,max]);
+            return [min,max];
+        }
     },
     watch: {
         use_zh: function(val){
