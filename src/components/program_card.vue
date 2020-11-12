@@ -8,7 +8,8 @@
                 <li>Age: {{ program.MIN_AGE }} - {{ program.MAX_AGE }}
                 <li>Enroll: {{ program_enroll_start_date }} - {{ program_enroll_end_date }}</li>
                 <li>Date: {{ program_start_date }} - {{ program_end_date }}</li>
-                <li>Time: {{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }} {{ program.EN_DAY }}</li>
+                <li>Day:  {{ program_day }}</li>
+                <li>Time: {{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }}</li>
             </ul>
         </v-card-text>
     </v-card>
@@ -45,6 +46,9 @@ export default {
         },
         program_enroll_end_date: function (){
             return this.program.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
+        },
+        program_day: function(){
+            return (this.lang_zh)?this.program.TC_DAY:this.program.EN_DAY;
         },
     },
 }

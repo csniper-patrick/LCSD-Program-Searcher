@@ -185,7 +185,7 @@ export default {
                 return self.indexOf(value) === index;
             });
             return code.map( function(c){
-                return (T.use_zh)? enroll_dict[c]['zh']:enroll_dict[c]['en'];
+                return { key:c, value: (T.use_zh)? enroll_dict[c]['zh']:enroll_dict[c]['en'] };
             } );
         },
         unique_target: function(){
@@ -194,13 +194,12 @@ export default {
                 return self.indexOf(value) === index;
             });
             return code.map( function(c){
-                return (T.use_zh)? target_dict[c]['zh']:target_dict[c]['en'];
+                return { key:c , value: (T.use_zh)? target_dict[c]['zh']:target_dict[c]['en'] };
             } );
         },
         formated_time_range: function(){
             var min = String(Math.floor(this.selected_time_range[0]/60)).padStart(2, '0') + ':' + String(Math.floor(this.selected_time_range[0]%60)).padStart(2, '0');
             var max = String(Math.floor(this.selected_time_range[1]/60)).padStart(2, '0') + ':' + String(Math.floor(this.selected_time_range[1]%60)).padStart(2, '0');
-            console.log([min,max]);
             return [min,max];
         }
     },
@@ -208,6 +207,7 @@ export default {
         use_zh: function(val){
             this.$store.commit('switch_lang', val);
         },
+        raw_program_list:async function(){this.select_program()},
         selected_type: async function(){this.select_program()},
         selected_district: async function(){this.select_program()},
         selected_venue: async function(){this.select_program()},
@@ -215,6 +215,8 @@ export default {
         selected_target: async function(){this.select_program()},
         keywords: async function(){this.select_program()},
         selected_age: async function(){this.select_program()},
+        selected_time_range: async function(){this.select_program()},
+        selected_weekday: async function(){this.select_program()},
     },
     methods: {
         select_program: async function(){
@@ -277,11 +279,39 @@ export default {
                     return Number(program.MIN_AGE)<=this.selected_age && this.selected_age<=Number(program.MAX_AGE);
                 } );
             }
-            //console.log(selected_list);
+            //select time range
+            selected_list = selected_list.filter( (program) => {
+                return ( this.selected_time_range[0] <= this.time_str_to_min( program.PGM_START_TIME ) ) && ( this.selected_time_range[1] >= this.time_str_to_min( program.PGM_END_TIME ) )
+            });
+            //select weekday
+            selected_list = selected_list.filter( (program) => {
+                if (typeof program.day_num == "undefined"){
+                    program.day_num=this.extract_day_array(program.TC_DAY);
+                }
+                //console.log(this.extract_day_array(program.TC_DAY))
+                for(var day of program.day_num){
+                    if(!this.selected_weekday.includes(day))return false;
+                }
+                return true;
+            } );
             self.$store.dispatch("set_filtered_program_list", selected_list);
         },
         lower_case_compare: function(item, queryText, itemText){
             return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1
+        },
+        time_str_to_min: function(time_str){
+            var hr_min = time_str.split(':');
+            return Number(hr_min[0]) * 60 + Number(hr_min[1]) ;
+        },
+        extract_day_array: function(tc_day_str){
+            var cmp_str=['日', '一', '二', '三', '四', '五', '六'];
+            var day_num=[];
+            for (var i = 0; i < 7; i++) {
+                if(tc_day_str.includes(cmp_str[i])){
+                    day_num.push(i);
+                }
+            }
+            return day_num;
         },
     },
 }
