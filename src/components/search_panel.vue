@@ -96,6 +96,14 @@
                             </v-select>
                         </v-col>
                         <v-col cols='6' sm='4' md='6' lg='6' xl='6'>
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
+                                v-model="selected_month"
+                                :items="unique_month"
+                                label="Month"
+                                hide-details="auto">
+                            </v-select>
+                        </v-col>
+                        <v-col cols='6' sm='4' md='6' lg='6' xl='6'>
                             <v-text-field v-model="selected_age" label="Age" dense outlined hide-details="auto" type="number" clearable></v-text-field>
                         </v-col>
                     </v-row>
@@ -149,6 +157,7 @@ export default {
         selected_weekday: [0, 1, 2, 3, 4, 5, 6],
         selected_time_range: [0, 1440],
         selected_age: null,
+        selected_month: [],
         query: "",
     }),
     mounted(){
@@ -205,6 +214,14 @@ export default {
             return code.map( function(c){
                 return { key:c , value: (T.use_zh)? target_dict[c]['zh']:target_dict[c]['en'] };
             } );
+        },
+        unique_month: function(){
+            var months=this.raw_program_list.map( function (program) {
+                return Number(program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g)[0].split('-')[1]);
+            });
+            return months.filter((value, index, self) => {
+                return self.indexOf(value) === index;
+            }).sort();
         },
         formated_time_range: function(){
             var min = String(Math.floor(this.selected_time_range[0]/60)).padStart(2, '0') + ':' + String(Math.floor(this.selected_time_range[0]%60)).padStart(2, '0');
@@ -306,6 +323,14 @@ export default {
                     }
                     return true;
                 } );    
+            }
+            //select month
+            if(this.selected_month.length>0){
+                selected_list=selected_list.filter( (program) => {
+                    return this.selected_month.includes(
+                        Number(program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g)[0].split('-')[1])
+                    );
+                });
             }
             self.$store.dispatch("set_filtered_program_list", selected_list);
         },
