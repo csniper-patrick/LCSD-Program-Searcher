@@ -16,12 +16,21 @@
                     outlined
                     rounded
                     clearable
-                    hide-details="auto">
+                    hide-details="auto"
+                    @click:append="select_program()">
                 </v-text-field>
                 <v-spacer class="d-flex justify-end">
+                    <v-btn
+                        v-if="is_filtered"
+                        color="secondary"
+                        rounded
+                        small
+                        @click="set_default()">
+                        clear all
+                    </v-btn>
                     <v-switch inset dese hide-details
                         label="ENG - 中"
-                        class="pa-0 ma-0"
+                        class="px-2 py-0 mx-2 my-0"
                         color="white"
                         v-model="use_zh">
                     </v-switch>
@@ -201,22 +210,24 @@ export default {
             var min = String(Math.floor(this.selected_time_range[0]/60)).padStart(2, '0') + ':' + String(Math.floor(this.selected_time_range[0]%60)).padStart(2, '0');
             var max = String(Math.floor(this.selected_time_range[1]/60)).padStart(2, '0') + ':' + String(Math.floor(this.selected_time_range[1]%60)).padStart(2, '0');
             return [min,max];
-        }
+        },
+        is_filtered: function(){
+            if (this.selected_type.length>0) return true;
+            if (this.selected_district.length>0) return true;
+            if (this.selected_venue.length>0) return true;
+            if (this.selected_enroll.length>0) return true;
+            if (this.selected_target.length>0) return true;
+            if (this.selected_weekday.length<7) return true;
+            if (this.selected_time_range[1]!=1440 && this.selected_time_range[0]!=0) return true;
+            if (this.selected_age!=null) return true;
+            return false
+        },
     },
     watch: {
         use_zh: function(val){
             this.$store.commit('switch_lang', val);
         },
         raw_program_list:async function(){this.select_program()},
-        selected_type: async function(){this.select_program()},
-        selected_district: async function(){this.select_program()},
-        selected_venue: async function(){this.select_program()},
-        selected_enroll: async function(){this.select_program()},
-        selected_target: async function(){this.select_program()},
-        keywords: async function(){this.select_program()},
-        selected_age: async function(){this.select_program()},
-        selected_time_range: async function(){this.select_program()},
-        selected_weekday: async function(){this.select_program()},
     },
     methods: {
         select_program: async function(){
@@ -284,16 +295,18 @@ export default {
                 return ( this.selected_time_range[0] <= this.time_str_to_min( program.PGM_START_TIME ) ) && ( this.selected_time_range[1] >= this.time_str_to_min( program.PGM_END_TIME ) )
             });
             //select weekday
-            selected_list = selected_list.filter( (program) => {
-                if (typeof program.day_num == "undefined"){
-                    program.day_num=this.extract_day_array(program.TC_DAY);
-                }
-                //console.log(this.extract_day_array(program.TC_DAY))
-                for(var day of program.day_num){
-                    if(!this.selected_weekday.includes(day))return false;
-                }
-                return true;
-            } );
+            if(this.selected_weekday.length<7){
+                selected_list = selected_list.filter( (program) => {
+                    if (typeof program.day_num == "undefined"){
+                        program.day_num=this.extract_day_array(program.TC_DAY);
+                    }
+                    //console.log(this.extract_day_array(program.TC_DAY))
+                    for(var day of program.day_num){
+                        if(!this.selected_weekday.includes(day))return false;
+                    }
+                    return true;
+                } );    
+            }
             self.$store.dispatch("set_filtered_program_list", selected_list);
         },
         lower_case_compare: function(item, queryText, itemText){
@@ -313,6 +326,18 @@ export default {
             }
             return day_num;
         },
+        set_default: async function(){
+            this.selected_type=[];
+            this.selected_district=[];
+            this.selected_venue=[];
+            this.selected_enroll=[];
+            this.selected_target=[];
+            this.selected_weekday=[0, 1, 2, 3, 4, 5, 6];
+            this.selected_time_range=[0, 1440];
+            this.selected_age=null;
+            this.query="";
+            this.select_program();
+        }
     },
 }
 </script>
