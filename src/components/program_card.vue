@@ -11,6 +11,22 @@
                 <li>Day:  {{ program_day }}</li>
                 <li>Time: {{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }}</li>
             </ul>
+            <v-spacer class="d-flex justify-end">
+                <v-btn fab rounded small outlined
+                    class="mx-1"
+                    :href="program_map_link"
+                    target="_blank"
+                    color="primary">
+                    <v-icon large>mdi-map-marker-radius-outline</v-icon>
+                </v-btn>
+                <v-btn fab rounded small outlined
+                    class="mx-1"
+                    :href="program_link"
+                    target="_blank"
+                    color="primary">
+                    <v-icon large>mdi-information-outline</v-icon>
+                </v-btn>
+            </v-spacer>
         </v-card-text>
     </v-card>
 </template>
@@ -49,6 +65,12 @@ export default {
         },
         program_day: function(){
             return (this.lang_zh)?this.program.TC_DAY:this.program.EN_DAY;
+        },
+        program_link: function(){
+            return (this.lang_zh)?this.program.TC_URL:this.program.EN_URL;
+        },
+        program_map_link: function(){
+            return 'https://www.google.com/maps/search/?api=1&query='+ encodeURIComponent(this.program_venue)
         },
     },
 }

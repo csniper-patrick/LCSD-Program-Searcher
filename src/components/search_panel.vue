@@ -40,7 +40,7 @@
                 <v-card-text>
                     <v-row>
                         <v-col cols='12' sm='4' md='12' lg='12' xl='12'>
-                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_type" 
                                 :items="unique_type"
                                 item-text="value"
@@ -49,10 +49,10 @@
                                 hide-details="auto"
                                 auto-select-first
                                 :filter="lower_case_compare">
-                            </v-autocomplete>
+                            </v-select>
                         </v-col>
                         <v-col cols='12' sm='4' md='12' lg='12' xl='12'>
-                            <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
+                            <v-select dense multiple small-chips deletable-chips outlined clearable
                                 v-model="selected_district"
                                 :items="unique_district"
                                 item-text="value"
@@ -61,7 +61,7 @@
                                 hide-details="auto"
                                 auto-select-first
                                 :filter="lower_case_compare">
-                            </v-autocomplete>
+                            </v-select>
                         </v-col>
                         <v-col cols='12' sm='4' md='12' lg='12' xl='12'>
                             <v-autocomplete dense multiple small-chips deletable-chips outlined clearable
