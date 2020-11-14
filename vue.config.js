@@ -12,7 +12,7 @@ module.exports = {
         }
     },
     pwa: {
-        name: 'LCSD Program searcher',
+        name: '康體班小幫手',
         themeColor: '#448aff',
         workboxOptions: {
             skipWaiting: true,
