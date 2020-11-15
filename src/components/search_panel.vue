@@ -237,6 +237,7 @@ export default {
             if (this.selected_weekday.length<7) return true;
             if (this.selected_time_range[1]!=1440 && this.selected_time_range[0]!=0) return true;
             if (this.selected_age!=null) return true;
+            if (this.selected_month.length>0) return true
             return false
         },
     },
@@ -361,6 +362,7 @@ export default {
             this.selected_time_range=[0, 1440];
             this.selected_age=null;
             this.query="";
+            this.selected_month=[];
             this.select_program();
         }
     },
