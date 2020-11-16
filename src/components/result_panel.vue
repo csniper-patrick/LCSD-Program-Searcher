@@ -18,12 +18,11 @@
 </template>
 
 <script>
-import program_card from './program_card.vue';
 
 export default {
     name: "result_panel",
     components: {
-        program_card,
+        program_card: () => import('./program_card'),
     },
 }
 </script>
