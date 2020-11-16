@@ -37,7 +37,6 @@ export default {
     name: "program_card",
     props: ["program"],
     data: () => ({
-        dialog: false,
     }),
     components: {
         program_calendar: () => import('./program_calendar.vue'),
