@@ -110,7 +110,7 @@
                     <v-divider></v-divider>
                     <v-chip-group
                         active-class="primary--text"
-                        v-model="selected_weekday"
+                        v-model="selected_day_of_week"
                         column
                         multiple>
                         <v-chip
@@ -154,7 +154,7 @@ export default {
         selected_venue: [],
         selected_enroll: [],
         selected_target: [],
-        selected_weekday: [0, 1, 2, 3, 4, 5, 6],
+        selected_day_of_week: [0, 1, 2, 3, 4, 5, 6],
         selected_time_range: [0, 1440],
         selected_age: null,
         selected_month: [],
@@ -234,9 +234,10 @@ export default {
             if (this.selected_venue.length>0) return true;
             if (this.selected_enroll.length>0) return true;
             if (this.selected_target.length>0) return true;
-            if (this.selected_weekday.length<7) return true;
+            if (this.selected_day_of_week.length<7) return true;
             if (this.selected_time_range[1]!=1440 && this.selected_time_range[0]!=0) return true;
             if (this.selected_age!=null) return true;
+            if (this.selected_month.length>0) return true
             return false
         },
     },
@@ -311,19 +312,17 @@ export default {
             selected_list = selected_list.filter( (program) => {
                 return ( this.selected_time_range[0] <= this.time_str_to_min( program.PGM_START_TIME ) ) && ( this.selected_time_range[1] >= this.time_str_to_min( program.PGM_END_TIME ) )
             });
-            //select weekday
-            if(this.selected_weekday.length<7){
-                selected_list = selected_list.filter( (program) => {
-                    if (typeof program.day_num == "undefined"){
-                        program.day_num=this.extract_day_array(program.TC_DAY);
-                    }
-                    //console.log(this.extract_day_array(program.TC_DAY))
-                    for(var day of program.day_num){
-                        if(!this.selected_weekday.includes(day))return false;
-                    }
-                    return true;
-                } );    
-            }
+            //select day_of_week
+            selected_list = selected_list.filter( (program) => {
+                if (typeof program.day_of_week == "undefined"){
+                    program.day_of_week=this.extract_day_array(program.TC_DAY);
+                }
+                //console.log(this.extract_day_array(program.TC_DAY))
+                for(var day of program.day_of_week){
+                    if(!this.selected_day_of_week.includes(day))return false;
+                }
+                return true;
+            } );
             //select month
             if(this.selected_month.length>0){
                 selected_list=selected_list.filter( (program) => {
@@ -343,13 +342,13 @@ export default {
         },
         extract_day_array: function(tc_day_str){
             var cmp_str=['日', '一', '二', '三', '四', '五', '六'];
-            var day_num=[];
+            var day_of_week=[];
             for (var i = 0; i < 7; i++) {
                 if(tc_day_str.includes(cmp_str[i])){
-                    day_num.push(i);
+                    day_of_week.push(i);
                 }
             }
-            return day_num;
+            return day_of_week;
         },
         set_default: async function(){
             this.selected_type=[];
@@ -357,10 +356,11 @@ export default {
             this.selected_venue=[];
             this.selected_enroll=[];
             this.selected_target=[];
-            this.selected_weekday=[0, 1, 2, 3, 4, 5, 6];
+            this.selected_day_of_week=[0, 1, 2, 3, 4, 5, 6];
             this.selected_time_range=[0, 1440];
             this.selected_age=null;
             this.query="";
+            this.selected_month=[];
             this.select_program();
         }
     },

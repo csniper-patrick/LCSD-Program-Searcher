@@ -26,6 +26,7 @@
                     color="primary">
                     <v-icon large>mdi-information-outline</v-icon>
                 </v-btn>
+                <program_calendar v-bind:calendar_events="program_calendar_events"/>
             </v-spacer>
         </v-card-text>
     </v-card>
@@ -35,6 +36,11 @@
 export default {
     name: "program_card",
     props: ["program"],
+    data: () => ({
+    }),
+    components: {
+        program_calendar: () => import('./program_calendar.vue'),
+    },
     computed: {
         lang_zh: function(){
             return this.$store.state.lang_zh;
@@ -72,6 +78,37 @@ export default {
         program_map_link: function(){
             return 'https://www.google.com/maps/search/?api=1&query='+ encodeURIComponent(this.program_venue)
         },
+        program_excluded_dates: function(){
+            var tmp=this.program.TC_DAY.match(/[0-9]+\/[0-9]+/g);
+            return (tmp==null)? []:tmp.map( (date) => {
+                return {m: Number(date.split("/")[1]), d: Number(date.split("/")[0])}
+            } );
+        },
+        program_calendar_events: function(){
+            return {
+                date: {
+                    start: new Date(this.program_start_date),
+                    end: new Date(this.program_end_date)
+                },
+                day_of_week: this.program.day_of_week,
+                time: {
+                    start: {
+                        h: Number(this.program.PGM_START_TIME.split(":")[0]),
+                        m: Number(this.program.PGM_START_TIME.split(":")[1])
+                    },
+                    end: {
+                        h: Number(this.program.PGM_END_TIME.split(":")[0]),
+                        m: Number(this.program.PGM_END_TIME.split(":")[1])
+                    },
+                    str: this.program.PGM_START_TIME + '-' + this.program.PGM_END_TIME,
+                },
+                excluded_date: this.program_excluded_dates,
+                venue: this.program_venue,
+                code: this.program.PGM_CODE,
+                name: this.program_name,
+                url: this.program_link,
+            }
+        }
     },
 }
 </script>
