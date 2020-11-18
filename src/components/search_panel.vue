@@ -217,7 +217,7 @@ export default {
         },
         unique_month: function(){
             var months=this.raw_program_list.map( function (program) {
-                return Number(program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g)[0].split('-')[1]);
+                return program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0];
             });
             return months.filter((value, index, self) => {
                 return self.indexOf(value) === index;
@@ -327,7 +327,7 @@ export default {
             if(this.selected_month.length>0){
                 selected_list=selected_list.filter( (program) => {
                     return this.selected_month.includes(
-                        Number(program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g)[0].split('-')[1])
+                        program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0]
                     );
                 });
             }
