@@ -235,7 +235,7 @@ export default {
             if (this.selected_enroll.length>0) return true;
             if (this.selected_target.length>0) return true;
             if (this.selected_day_of_week.length<7) return true;
-            if (this.selected_time_range[1]!=1440 && this.selected_time_range[0]!=0) return true;
+            if (this.selected_time_range[1]!=1440 || this.selected_time_range[0]!=0) return true;
             if (this.selected_age!=null) return true;
             if (this.selected_month.length>0) return true
             return false
