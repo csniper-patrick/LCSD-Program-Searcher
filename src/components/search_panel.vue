@@ -1,7 +1,6 @@
 <template lang="html">
     <v-container>
         <v-menu
-            v-model="menu"
             :close-on-content-click="false"
             offset-y
             bottom>
@@ -161,6 +160,7 @@ export default {
         query: "",
     }),
     mounted(){
+        this.use_zh=this.$store.state.lang_zh;
     },
     computed: {
         raw_program_list: function(){
@@ -246,12 +246,14 @@ export default {
             this.$store.commit('switch_lang', val);
         },
         raw_program_list:async function(){this.select_program()},
+        bookmarked_only:async function(){this.select_program()},
     },
     methods: {
         select_program: async function(){
             var self = this;
             var selected_list=this.raw_program_list;
             var c;
+            
             //select by type
             if(this.selected_type.length!=0){
                 selected_list = selected_list.filter( (program) => {

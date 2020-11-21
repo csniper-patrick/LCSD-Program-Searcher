@@ -27,6 +27,13 @@
                     <v-icon large>mdi-information-outline</v-icon>
                 </v-btn>
                 <program_calendar v-bind:calendar_events="program_calendar_events"/>
+                <v-btn fab rounded small outlined
+                    v-model="bookmarked"
+                    @click="bookmark_switch()"
+                    class="mx-1"
+                    :color="(bookmarked)?'purple':'primary'">
+                    <v-icon large>{{ bookmark_icon }}</v-icon>
+                </v-btn>
             </v-spacer>
         </v-card-text>
     </v-card>
@@ -44,6 +51,12 @@ export default {
     computed: {
         lang_zh: function(){
             return this.$store.state.lang_zh;
+        },
+        bookmarked: function(){
+            return this.$store.state.bookmarks.includes(this.program.PGM_CODE);
+        },
+        bookmark_icon: function(){
+            return (this.bookmarked)?'mdi-bookmark-check-outline':'mdi-bookmark-outline';
         },
         program_name: function (){
             return (this.lang_zh)?this.program.TC_PGM_NAME:this.program.EN_PGM_NAME;
@@ -110,6 +123,15 @@ export default {
             }
         }
     },
+    methods: {
+        bookmark_switch: function() {
+            if (this.bookmarked) {
+                this.$store.commit('remove_bookmark', this.program.PGM_CODE);
+            } else {
+                this.$store.commit('add_bookmark', this.program.PGM_CODE);
+            }
+        }
+    }
 }
 </script>
 
