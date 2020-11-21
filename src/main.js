@@ -9,5 +9,8 @@ Vue.config.productionTip = false
 new Vue({
     vuetify,
     store,
-    render: h => h(App)
+    render: h => h(App),
+    beforeCreate() {
+        this.$store.dispatch('retrive_local_storage');
+    },
 }).$mount('#app')
