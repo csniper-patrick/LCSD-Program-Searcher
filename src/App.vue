@@ -64,7 +64,7 @@ export default {
     }),
     computed: {
         bookmark_list: function(){
-            return this.$store.state.filtered_program_list.filter( (program) => {
+            return this.$store.state.raw_program_list.filter( (program) => {
                 return this.$store.state.bookmarks.includes( program.PGM_CODE );
             } )
         },
