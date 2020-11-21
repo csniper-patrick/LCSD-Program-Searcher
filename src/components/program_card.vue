@@ -40,13 +40,14 @@
 </template>
 
 <script>
+import program_calendar from './program_calendar.vue';
 export default {
     name: "program_card",
     props: ["program"],
     data: () => ({
     }),
     components: {
-        program_calendar: () => import('./program_calendar.vue'),
+        program_calendar,
     },
     computed: {
         lang_zh: function(){
