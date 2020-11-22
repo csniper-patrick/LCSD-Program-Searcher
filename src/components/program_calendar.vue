@@ -97,7 +97,7 @@ export default {
             document.body.removeChild(element);
             return 
         },
-        generate_event_dates: async function() {
+        generate_event_dates: function() {
             var tmp = [];
             for (var i = new Date( this.calendar_events.date.start ); i <= this.calendar_events.date.end; i.setDate(i.getDate()+1)) {
                 if(this.calendar_events.day_of_week.includes(i.getDay()))tmp.push(new Date(i));
