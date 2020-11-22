@@ -1,15 +1,15 @@
 <template lang="html">
     <v-card elevation="5">
-        <v-card-title><strong>{{ program_name }}</strong></v-card-title>
-        <v-card-subtitle>{{ program_district }} - {{ program_venue }}</v-card-subtitle>
+        <v-card-title><strong>{{ program_name }} - {{ program.PGM_CODE }}</strong></v-card-title>
+        <v-card-subtitle><b>{{ program_type }}</b></v-card-subtitle>
         <v-card-text>
             <ul>
-                <li>Code: {{ program.PGM_CODE }} Type: {{ program_type }}</li>
-                <li>Age: {{ program.MIN_AGE }} - {{ program.MAX_AGE }}
-                <li>Enroll: {{ program_enroll_start_date }} - {{ program_enroll_end_date }}</li>
-                <li>Date: {{ program_start_date }} - {{ program_end_date }}</li>
-                <li>Day:  {{ program_day }}</li>
-                <li>Time: {{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }}</li>
+                <li>{{age_tag}}: {{ program.MIN_AGE }} - {{ program.MAX_AGE }}</li>
+                <li><v-icon small>mdi-map-marker-outline</v-icon>:{{ program_district }} - {{ program_venue }}</li>
+                <li><v-icon small>mdi-lead-pencil</v-icon>: {{ program_enroll_start_date }} - {{ program_enroll_end_date }}</li>
+                <li><v-icon small>mdi-calendar-month</v-icon>: {{ program_start_date }} - {{ program_end_date }}</li>
+                <li><v-icon small>mdi-calendar-week</v-icon>:  {{ program_day }}</li>
+                <li><v-icon small>mdi-clock-outline</v-icon>: {{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }}<v-icon small>mdi-hours-24</v-icon></li>
             </ul>
             <v-spacer class="d-flex justify-end">
                 <v-btn fab rounded small outlined
@@ -52,6 +52,9 @@ export default {
     computed: {
         lang_zh: function(){
             return this.$store.state.lang_zh;
+        },
+        age_tag: function(){
+            return (this.lang_zh)?"年齡":"AGE";
         },
         bookmarked: function(){
             return this.$store.state.bookmarks.includes(this.program.PGM_CODE);

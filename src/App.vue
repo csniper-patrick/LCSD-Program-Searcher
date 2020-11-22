@@ -35,8 +35,15 @@
                         <result_panel :displayed_list='bookmark_list'/>
                     </v-tab-item>
                 </v-tabs-items>
-                
             </v-container>
+            <v-fab-transition>
+              <v-btn bottom left fixed fab
+                color='#FC6D27'
+                href='https://gitlab.com/CSniper/lcsd-program-searcher'
+                target="_blank">
+                <v-icon large color='white'>mdi-gitlab</v-icon>
+              </v-btn>
+            </v-fab-transition>
         </v-main>
         <disclaimer/>
     </v-app>

@@ -51,40 +51,26 @@ export default {
     props: ['calendar_events'],
     data: () => ({
         dialog: false,
+        event_dates: [],
+        
     }),
     computed: {
-        event_dates: function() {
-            var tmp = [];
-            for (var i = new Date( this.calendar_events.date.start ); i <= this.calendar_events.date.end; i.setDate(i.getDate()+1)) {
-                if(this.calendar_events.day_of_week.includes(i.getDay()))tmp.push(new Date(i));
-            }
-            if(this.calendar_events.excluded_date.length>0){
-                tmp=tmp.filter( (date) => {
-                    return !this.calendar_events.excluded_date.some(
-                        (excluded) => {
-                            return (excluded.m==date.getMonth()+1 && excluded.d==date.getDate());
-                        }
-                    )
-                } )
-            }
-            tmp=tmp.map( (date) => {
-                var start=new Date(date);
-                start.setHours(this.calendar_events.time.start.h);
-                start.setMinutes(this.calendar_events.time.start.m);
-                var end=new Date(date);
-                end.setHours(this.calendar_events.time.end.h);
-                end.setMinutes(this.calendar_events.time.end.m);
-                var date_str= new Date(start.getTime() - start.getTimezoneOffset()*60*1000).toISOString().split('T')[0]
-                return { start: start, end: end, str: date_str}
-            })
-            return tmp
-        },
         calendar_day: function(){
             return this.event_dates.map( (date) => { return date.str } )
         },
     },
+    watch: {
+        dialog: async function(val){
+            if(val==true){
+                this.event_dates=this.generate_event_dates();
+            }
+        },
+    },
+    mounted: function(){
+        
+    },
     methods:{
-        generate_ics: function(){
+        generate_ics: async function(){
             const ics=require('ics');
             const event_list=this.event_dates.map( (cal_event) => {
                 return {
@@ -110,7 +96,33 @@ export default {
             element.click();
             document.body.removeChild(element);
             return 
-        }
+        },
+        generate_event_dates: async function() {
+            var tmp = [];
+            for (var i = new Date( this.calendar_events.date.start ); i <= this.calendar_events.date.end; i.setDate(i.getDate()+1)) {
+                if(this.calendar_events.day_of_week.includes(i.getDay()))tmp.push(new Date(i));
+            }
+            if(this.calendar_events.excluded_date.length>0){
+                tmp=tmp.filter( (date) => {
+                    return !this.calendar_events.excluded_date.some(
+                        (excluded) => {
+                            return (excluded.m==date.getMonth()+1 && excluded.d==date.getDate());
+                        }
+                    )
+                } )
+            }
+            tmp=tmp.map( (date) => {
+                var start=new Date(date);
+                start.setHours(this.calendar_events.time.start.h);
+                start.setMinutes(this.calendar_events.time.start.m);
+                var end=new Date(date);
+                end.setHours(this.calendar_events.time.end.h);
+                end.setMinutes(this.calendar_events.time.end.m);
+                var date_str= new Date(start.getTime() - start.getTimezoneOffset()*60*1000).toISOString().split('T')[0]
+                return { start: start, end: end, str: date_str}
+            })
+            return tmp
+        },
     }
 }
 </script>
