@@ -7,7 +7,7 @@
                         :options="{
                             threshold: .5
                         }"
-                        min-height="200"
+                        min-height="270"
                         transition="fade-transition">
                         <program_card :program="item"/>
                     </v-lazy>
