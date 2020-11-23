@@ -84,7 +84,7 @@ export default {
     methods: {
         retrive_raw_prog_list_online: async function() {
             var self = this;
-            const prog_json='https://cors-anywhere.herokuapp.com/https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json';
+            const prog_json=( typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== 'undefined' )? process.env.VUE_APP_PROG_JSON_PROXY_LINK :'https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json';
             axios.get(prog_json, { headers: { 'X-Requested-With' : "XMLHttpRequest"} })
             .then(function (res) {
                 res.data.sort((a, b) => { 
