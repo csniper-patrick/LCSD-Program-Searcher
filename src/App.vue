@@ -83,34 +83,30 @@ export default {
     },
     methods: {
         retrive_raw_prog_list_online: async function() {
-            var self = this;
             const prog_json=( typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== 'undefined' )? process.env.VUE_APP_PROG_JSON_PROXY_LINK :'https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json';
-            axios.get(prog_json, { headers: { 'X-Requested-With' : "XMLHttpRequest"} })
-            .then(function (res) {
-                res.data.sort((a, b) => { 
+            try {
+                var response = await axios.get(prog_json, { headers: { 'X-Requested-With' : "XMLHttpRequest"} })
+                response.data.sort( (a, b) => { 
                     var tmp = 0;
                     //sort by type
-                    tmp = a.EN_ACT_TYPE_NAME.localeCompare(b.EN_ACT_TYPE_NAME);
-                    if(tmp!=0)return tmp;
+                    if( a.EN_ACT_TYPE_NAME && (tmp = a.EN_ACT_TYPE_NAME.localeCompare(b.EN_ACT_TYPE_NAME)) && (tmp!=0) )return tmp;
+                    
                     //sort by name
-                    tmp = a.EN_PGM_NAME.localeCompare(b.EN_PGM_NAME);
-                    if(tmp!=0)return tmp;
+                    if( a.EN_PGM_NAME && (tmp = a.EN_PGM_NAME.localeCompare(b.EN_PGM_NAME)) && (tmp!=0) )return tmp;
+                    
                     //sort by district
-                    tmp = a.EN_DISTRICT.localeCompare(b.EN_DISTRICT);
-                    if(tmp!=0)return tmp;
+                    if( a.EN_DISTRICT && (tmp = a.EN_DISTRICT.localeCompare(b.EN_DISTRICT)) && (tmp!=0) )return tmp;
+                    
                     //sort by venue
-                    tmp = a.EN_VENUE.localeCompare(b.EN_VENUE);
-                    if(tmp!=0)return tmp;
+                    if( a.EN_VENUE && (tmp = a.EN_VENUE.localeCompare(b.EN_VENUE)) && (tmp!=0) )return tmp;
                     
                     return Number(b.PGM_CODE) - Number(a.PGM_CODE);
                 });
-                self.$store.dispatch("set_raw_program_list", res.data);
-                self.loading=false;
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
+                await this.$store.dispatch("set_raw_program_list", response.data);
+                this.loading=false
+            } catch (e) {
+                console.log(e)
+            }
         },
     },
 };

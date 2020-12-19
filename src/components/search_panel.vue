@@ -247,11 +247,9 @@ export default {
             this.$store.commit('switch_lang', val);
         },
         raw_program_list:async function(){this.select_program()},
-        bookmarked_only:async function(){this.select_program()},
     },
     methods: {
         select_program: async function(){
-            var self = this;
             var selected_list=this.raw_program_list;
             var c;
             
@@ -334,7 +332,7 @@ export default {
                     );
                 });
             }
-            self.$store.dispatch("set_filtered_program_list", selected_list);
+            this.$store.dispatch("set_filtered_program_list", selected_list);
         },
         lower_case_compare: function(item, queryText, itemText){
             return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1
