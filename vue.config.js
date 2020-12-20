@@ -21,7 +21,7 @@ module.exports = {
             runtimeCaching: [
                 {
                     urlPattern: new RegExp('^https://cors-anywhere.herokuapp.com/'),
-                    handler: 'networkFirst',
+                    handler: 'NetworkFirst',
                     options: {
                         networkTimeoutSeconds: 20,
                         cacheName: 'api-cache',
@@ -32,14 +32,14 @@ module.exports = {
                 }, 
                 {
                     urlPattern: new RegExp('^https://fonts.'),
-                    handler: 'cacheFirst',
+                    handler: 'CacheFirst',
                     options: {
                         cacheName: 'fonts'
                     }
                 },
                 {
                     urlPattern: new RegExp('^https://cdn.jsdelivr.net'),
-                    handler: 'cacheFirst',
+                    handler: 'CacheFirst',
                     options: {
                         cacheName: 'material-icons'
                     }
