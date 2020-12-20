@@ -18,17 +18,33 @@ module.exports = {
         workboxOptions: {
             skipWaiting: true,
             clientsClaim: true,
-            runtimeCaching: [{
-                urlPattern: new RegExp('^https://cors-anywhere.herokuapp.com/'),
-                handler: 'networkFirst',
+            runtimeCaching: [
+                {
+                    urlPattern: new RegExp('^https://cors-anywhere.herokuapp.com/'),
+                    handler: 'networkFirst',
                     options: {
-                    networkTimeoutSeconds: 20,
-                    cacheName: 'api-cache',
-                    cacheableResponse: {
-                        statuses: [0, 200],
+                        networkTimeoutSeconds: 20,
+                        cacheName: 'api-cache',
+                        cacheableResponse: {
+                            statuses: [0, 200],
+                        },
                     },
+                }, 
+                {
+                    urlPattern: new RegExp('^https://fonts.'),
+                    handler: 'cacheFirst',
+                    options: {
+                        cacheName: 'fonts'
+                    }
                 },
-            }],
+                {
+                    urlPattern: new RegExp('^https://cdn.jsdelivr.net'),
+                    handler: 'cacheFirst',
+                    options: {
+                        cacheName: 'material-icons'
+                    }
+                }
+            ],
         }
     }
 }
