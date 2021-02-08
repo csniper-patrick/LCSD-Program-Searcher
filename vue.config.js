@@ -20,7 +20,7 @@ module.exports = {
             clientsClaim: true,
             runtimeCaching: [
                 {
-                    urlPattern: new RegExp('^https://cors-anywhere.herokuapp.com/'),
+                    urlPattern: ( typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== 'undefined' )? process.env.VUE_APP_PROG_JSON_PROXY_LINK :'https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json',
                     handler: 'NetworkFirst',
                     options: {
                         networkTimeoutSeconds: 20,
