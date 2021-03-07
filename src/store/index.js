@@ -14,6 +14,15 @@ export default new Vuex.Store({
   mutations: {
       set_raw_program_list(state, payload) {
           state.raw_program_list = payload;
+          state.bookmarks = state.bookmarks.map( (bookmark_item) => {
+              let updated_item;
+              if( ( updated_item = payload.find( (program_item) => program_item.PGM_CODE == bookmark_item.PGM_CODE ) ) ){
+                  return updated_item;
+              }else{
+                  return bookmark_item;
+              }
+          } )
+          localStorage.setItem('bookmarks',JSON.stringify(state.bookmarks));
       },
       set_filtered_program_list(state, payload) {
           state.filtered_program_list = payload;
@@ -23,19 +32,23 @@ export default new Vuex.Store({
           localStorage.setItem('lang',JSON.stringify( (payload)? 'zh':'en'));
       },
       add_bookmark(state, payload){
-          if(!state.bookmarks.includes(payload)){
-              state.bookmarks.push(payload);
+          if(!state.bookmarks.some( program => program.PGM_CODE == payload )){
+              state.bookmarks.push( state.raw_program_list.find( program => program.PGM_CODE == payload ) );
           }
           localStorage.setItem('bookmarks',JSON.stringify(state.bookmarks));
       },
       remove_bookmark(state, payload){
-          if(state.bookmarks.includes(payload)){
-              state.bookmarks.splice(state.bookmarks.indexOf(payload), 1);
+          if(state.bookmarks.some( program => program.PGM_CODE == payload )){
+              state.bookmarks.splice( state.bookmarks.findIndex( program => program.PGM_CODE == payload ), 1);
           }
           localStorage.setItem('bookmarks',JSON.stringify(state.bookmarks));
       },
       load_bookmarks(state, payload){
-          state.bookmarks=payload;
+          state.bookmarks=payload.filter( (program) => {
+              const program_end_data = new Date( program.PGM_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString() );
+              return program_end_data.valueOf() >= Date.now() - 604800000;
+          });
+          localStorage.setItem('bookmarks',JSON.stringify(state.bookmarks));
       },
       replying_disclaimer(state, payload){
           state.disclaimer_agreed=payload;

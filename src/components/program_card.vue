@@ -1,5 +1,5 @@
 <template lang="html">
-    <v-card elevation="5">
+    <v-card elevation="5" :color="(card_disabled)?'grey lighten-1':''">
         <v-card-title><strong>{{ program_name }} - {{ program.PGM_CODE }}</strong></v-card-title>
         <v-card-subtitle><b>{{ program_type }}</b></v-card-subtitle>
         <v-card-text>
@@ -13,6 +13,7 @@
             </ul>
             <v-spacer class="d-flex justify-end">
                 <v-btn fab rounded small outlined
+                    :disabled="card_disabled"
                     class="mx-1"
                     :href="program_map_link"
                     target="_blank"
@@ -20,6 +21,7 @@
                     <v-icon large>mdi-map-marker-radius-outline</v-icon>
                 </v-btn>
                 <v-btn fab rounded small outlined
+                    :disabled="card_disabled"
                     class="mx-1"
                     :href="program_link"
                     target="_blank"
@@ -57,7 +59,7 @@ export default {
             return (this.lang_zh)?"年齡":"AGE";
         },
         bookmarked: function(){
-            return this.$store.state.bookmarks.includes(this.program.PGM_CODE);
+            return this.$store.state.bookmarks.some( program => program.PGM_CODE == this.program.PGM_CODE );
         },
         bookmark_icon: function(){
             return (this.bookmarked)?'mdi-bookmark-check-outline':'mdi-bookmark-outline';
@@ -125,6 +127,9 @@ export default {
                 name: this.program_name,
                 url: this.program_link,
             }
+        },
+        card_disabled: function(){
+            return !(this.$store.state.raw_program_list.some( (raw) => raw.PGM_CODE == this.program.PGM_CODE ));
         }
     },
     methods: {
