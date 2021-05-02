@@ -5,7 +5,7 @@
                 <v-col class="pa-1 ma-0" v-for="(item, index) in displayed_list" :key="index" cols='12' sm='6' md='4' lg='3' xl='3'>
                     <v-lazy
                         :options="{
-                            threshold: .5
+                            threshold: .1
                         }"
                         min-height="250"
                         transition="fade-transition">
