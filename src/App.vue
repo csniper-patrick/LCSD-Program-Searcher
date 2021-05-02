@@ -2,7 +2,7 @@
     <v-app>
         <v-app-bar color="accent" class="py-0 ma-0" dense prominent app>
             <v-row class="d-flex justify-end" >
-                <v-col class="py-0 ma-0" cols='12' sm='12' md='4' lg='4' xl='4'>
+                <v-col class="pt-1 px-0 pb-0 ma-0" cols='12' sm='12' md='4' lg='4' xl='4'>
                     <search_panel/>
                 </v-col>
             </v-row>
@@ -26,7 +26,7 @@
         </v-app-bar>
         <v-main>
             <v-progress-linear v-if="loading" indeterminate color="primary"></v-progress-linear>
-            <v-container class="py-0 ma-0 d-flex flex-column flex-grow-1" fluid>
+            <v-container class="pa-0 ma-0 d-flex flex-column flex-grow-1" fluid>
                 <v-tabs-items v-model="current_tab">
                     <v-tab-item>
                         <result_panel :displayed_list='this.$store.state.filtered_program_list'/>

@@ -1,8 +1,8 @@
 <template lang="html">
-    <v-card elevation="5" :color="(card_disabled)?'grey lighten-1':''">
+    <v-card elevation="3" :color="(card_disabled)?'grey lighten-1':''">
         <v-card-title><strong>{{ program_name }} - {{ program.PGM_CODE }}</strong></v-card-title>
-        <v-card-subtitle><b>{{ program_type }}</b></v-card-subtitle>
-        <v-card-text>
+        <v-card-subtitle class="py-0"><b>{{ program_type }}</b></v-card-subtitle>
+        <v-card-text class="py-0">
             <ul>
                 <li>{{age_tag}}: {{ program.MIN_AGE }} - {{ program.MAX_AGE }}</li>
                 <li><v-icon small>mdi-map-marker-outline</v-icon>:{{ program_district }} - {{ program_venue }}</li>
@@ -11,33 +11,34 @@
                 <li><v-icon small>mdi-calendar-week</v-icon>:  {{ program_day }}</li>
                 <li><v-icon small>mdi-clock-outline</v-icon>: {{ program.PGM_START_TIME}} - {{ program.PGM_END_TIME }}<v-icon small>mdi-hours-24</v-icon></li>
             </ul>
-            <v-spacer class="d-flex justify-end">
-                <v-btn fab rounded small outlined
-                    :disabled="card_disabled"
-                    class="mx-1"
-                    :href="program_map_link"
-                    target="_blank"
-                    color="primary">
-                    <v-icon large>mdi-map-marker-radius-outline</v-icon>
-                </v-btn>
-                <v-btn fab rounded small outlined
-                    :disabled="card_disabled"
-                    class="mx-1"
-                    :href="program_link"
-                    target="_blank"
-                    color="primary">
-                    <v-icon large>mdi-information-outline</v-icon>
-                </v-btn>
-                <program_calendar v-bind:calendar_events="program_calendar_events"/>
-                <v-btn fab rounded small outlined
-                    v-model="bookmarked"
-                    @click="bookmark_switch()"
-                    class="mx-1"
-                    :color="(bookmarked)?'purple':'primary'">
-                    <v-icon large>{{ bookmark_icon }}</v-icon>
-                </v-btn>
-            </v-spacer>
         </v-card-text>
+        <v-card-actions class="pa-1 ma-0">
+            <v-spacer/>
+            <v-btn fab rounded small outlined
+                :disabled="card_disabled"
+                class="mx-1"
+                :href="program_map_link"
+                target="_blank"
+                color="primary">
+                <v-icon large>mdi-map-marker-radius-outline</v-icon>
+            </v-btn>
+            <v-btn fab rounded small outlined
+                :disabled="card_disabled"
+                class="mx-1"
+                :href="program_link"
+                target="_blank"
+                color="primary">
+                <v-icon large>mdi-information-outline</v-icon>
+            </v-btn>
+            <program_calendar v-bind:calendar_events="program_calendar_events"/>
+            <v-btn fab rounded small outlined
+                v-model="bookmarked"
+                @click="bookmark_switch()"
+                class="mx-1"
+                :color="(bookmarked)?'purple':'primary'">
+                <v-icon large>{{ bookmark_icon }}</v-icon>
+            </v-btn>
+        </v-card-actions>
     </v-card>
 </template>
 
