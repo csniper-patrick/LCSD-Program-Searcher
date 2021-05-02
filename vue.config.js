@@ -16,7 +16,6 @@ module.exports = {
         name: '康體班小幫手',
         themeColor: '#448aff',
         workboxOptions: {
-            clientsClaim: true,
             runtimeCaching: [
                 {
                     urlPattern: ( typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== 'undefined' )? process.env.VUE_APP_PROG_JSON_PROXY_LINK :'https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json',
