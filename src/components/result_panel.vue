@@ -18,13 +18,12 @@
 </template>
 
 <script>
-
 export default {
-    name: "result_panel",
-    props: ["displayed_list"],
+    name: 'result_panel',
+    props: ['displayed_list'],
     components: {
-        program_card: () => import('./program_card'),
-    },
+        program_card: () => import('./program_card')
+    }
 }
 </script>
 

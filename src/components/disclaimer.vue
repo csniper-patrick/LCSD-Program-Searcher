@@ -35,21 +35,18 @@
 <script>
 export default {
     name: 'disclaimer',
-    data: () => ({
-    }),
+    data: () => ({}),
     computed: {
-        dialog: function(){
-            return !this.$store.state.disclaimer_agreed;
-        },
+        dialog: function () {
+            return !this.$store.state.disclaimer_agreed
+        }
     },
     methods: {
-        agreeing_disclaimer: function(){
+        agreeing_disclaimer: function () {
             this.$store.commit('replying_disclaimer', true)
         }
     },
-    mounted: function(){
-        
-    }
+    mounted: function () {}
 }
 </script>
 

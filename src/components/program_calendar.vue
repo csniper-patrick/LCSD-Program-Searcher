@@ -47,82 +47,103 @@
 
 <script>
 export default {
-    name: "program_calendar",
+    name: 'program_calendar',
     props: ['calendar_events'],
     data: () => ({
         dialog: false,
-        event_dates: [],
-        
+        event_dates: []
     }),
     computed: {
-        calendar_day: function(){
-            return this.event_dates.map( (date) => { return date.str } )
-        },
+        calendar_day: function () {
+            return this.event_dates.map((date) => {
+                return date.str
+            })
+        }
     },
     watch: {
-        dialog: async function(val){
-            if(val==true){
-                this.event_dates=this.generate_event_dates();
+        dialog: async function (val) {
+            if (val == true) {
+                this.event_dates = this.generate_event_dates()
             }
-        },
+        }
     },
-    mounted: function(){
-        
-    },
-    methods:{
-        generate_ics: async function(){
-            const ics=require('ics');
-            const event_list=this.event_dates.map( (cal_event) => {
+    mounted: function () {},
+    methods: {
+        generate_ics: async function () {
+            const ics = require('ics')
+            const event_list = this.event_dates.map((cal_event) => {
                 return {
-                    start: [cal_event.start.getFullYear(), cal_event.start.getMonth()+1, cal_event.start.getDate(), cal_event.start.getHours(), cal_event.start.getSeconds()],
-                    end: [cal_event.end.getFullYear(), cal_event.end.getMonth()+1, cal_event.end.getDate(), cal_event.end.getHours(), cal_event.end.getSeconds()],
+                    start: [
+                        cal_event.start.getFullYear(),
+                        cal_event.start.getMonth() + 1,
+                        cal_event.start.getDate(),
+                        cal_event.start.getHours(),
+                        cal_event.start.getSeconds()
+                    ],
+                    end: [
+                        cal_event.end.getFullYear(),
+                        cal_event.end.getMonth() + 1,
+                        cal_event.end.getDate(),
+                        cal_event.end.getHours(),
+                        cal_event.end.getSeconds()
+                    ],
                     title: this.calendar_events.name,
-                    description: "name: " + this.calendar_events.name + "\ncode: " + this.calendar_events.code + "\nlink: "+this.calendar_events.url,
+                    description:
+                        'name: ' +
+                        this.calendar_events.name +
+                        '\ncode: ' +
+                        this.calendar_events.code +
+                        '\nlink: ' +
+                        this.calendar_events.url,
                     url: this.calendar_events.url,
-                    location: this.calendar_events.venue,
+                    location: this.calendar_events.venue
                 }
-            } );
-            var { error, value } = ics.createEvents(event_list);
-            if(error){
-                console.log(error);
+            })
+            var { error, value } = ics.createEvents(event_list)
+            if (error) {
+                console.log(error)
                 return
             }
             //Create ics file and download
-            var element = document.createElement('a');
-            element.setAttribute('href','data:ics/plain;charset=utf-8,' + encodeURIComponent(value));
-            element.setAttribute('download', this.calendar_events.name + '-' + this.calendar_events.code + '.ics');
-            element.style.display='none';
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
-            return 
+            var element = document.createElement('a')
+            element.setAttribute('href', 'data:ics/plain;charset=utf-8,' + encodeURIComponent(value))
+            element.setAttribute('download', this.calendar_events.name + '-' + this.calendar_events.code + '.ics')
+            element.style.display = 'none'
+            document.body.appendChild(element)
+            element.click()
+            document.body.removeChild(element)
+            return
         },
-        generate_event_dates: function() {
-            var tmp = [];
-            for (var i = new Date( this.calendar_events.date.start ); i <= this.calendar_events.date.end; i.setDate(i.getDate()+1)) {
-                if(this.calendar_events.day_of_week.includes(i.getDay()))tmp.push(new Date(i));
+        generate_event_dates: function () {
+            var tmp = []
+            for (
+                var i = new Date(this.calendar_events.date.start);
+                i <= this.calendar_events.date.end;
+                i.setDate(i.getDate() + 1)
+            ) {
+                if (this.calendar_events.day_of_week.includes(i.getDay())) tmp.push(new Date(i))
             }
-            if(this.calendar_events.excluded_date.length>0){
-                tmp=tmp.filter( (date) => {
-                    return !this.calendar_events.excluded_date.some(
-                        (excluded) => {
-                            return (excluded.m==date.getMonth()+1 && excluded.d==date.getDate());
-                        }
-                    )
-                } )
+            if (this.calendar_events.excluded_date.length > 0) {
+                tmp = tmp.filter((date) => {
+                    return !this.calendar_events.excluded_date.some((excluded) => {
+                        return excluded.m == date.getMonth() + 1 && excluded.d == date.getDate()
+                    })
+                })
             }
-            tmp=tmp.map( (date) => {
-                var start=new Date(date);
-                start.setHours(this.calendar_events.time.start.h);
-                start.setMinutes(this.calendar_events.time.start.m);
-                var end=new Date(date);
-                end.setHours(this.calendar_events.time.end.h);
-                end.setMinutes(this.calendar_events.time.end.m);
-                var date_str= new Date(start.getTime() - start.getTimezoneOffset()*60*1000).toISOString().split('T')[0]
-                return { start: start, end: end, str: date_str}
+            tmp = tmp.map((date) => {
+                var start = new Date(date)
+                start.setHours(this.calendar_events.time.start.h)
+                start.setMinutes(this.calendar_events.time.start.m)
+                var end = new Date(date)
+                end.setHours(this.calendar_events.time.end.h)
+                end.setMinutes(this.calendar_events.time.end.m)
+                var date_str = new Date(start.getTime() - start.getTimezoneOffset() * 60 * 1000)
+                    .toISOString()
+                    .split('T')[0]
+                return { start: start, end: end, str: date_str }
             })
             return tmp
-        },
+        }
     }
 }
 </script>

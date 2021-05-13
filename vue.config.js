@@ -2,13 +2,13 @@ module.exports = {
     "transpileDependencies": [
         "vuetify"
     ],
-    publicPath: ( process.env.NODE_ENV === 'production' && typeof process.env.CI_PROJECT_NAME !== 'undefined' ) ? '/' + process.env.CI_PROJECT_NAME + '/' : '/',
+    publicPath: (process.env.NODE_ENV === 'production' && typeof process.env.CI_PROJECT_NAME !== 'undefined') ? '/' + process.env.CI_PROJECT_NAME + '/' : '/',
     devServer: {
         proxy: {
             '/lcsd': {
                 target: 'https://www.lcsd.gov.hk/',
                 changeOrigin: true,
-                pathRewrite: {"^/lcsd": ""}
+                pathRewrite: { "^/lcsd": "" }
             },
         }
     },
@@ -18,7 +18,7 @@ module.exports = {
         workboxOptions: {
             runtimeCaching: [
                 {
-                    urlPattern: ( typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== 'undefined' )? process.env.VUE_APP_PROG_JSON_PROXY_LINK :'https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json',
+                    urlPattern: (typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== 'undefined') ? process.env.VUE_APP_PROG_JSON_PROXY_LINK : 'https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json',
                     handler: 'NetworkFirst',
                     options: {
                         networkTimeoutSeconds: 20,
@@ -27,7 +27,7 @@ module.exports = {
                             statuses: [0, 200],
                         },
                     },
-                }, 
+                },
                 {
                     urlPattern: new RegExp('^https://fonts.'),
                     handler: 'CacheFirst',
