@@ -2,6 +2,8 @@
     <v-container>
         <v-menu
             :close-on-content-click="false"
+            open-on-focus
+            autofocus
             offset-y
             bottom>
             <template v-slot:activator="{ on }">
@@ -16,7 +18,8 @@
                     rounded
                     clearable
                     hide-details="auto"
-                    @click:append="select_program()">
+                    @click:append="select_program()"
+                    @keydown.enter="select_program()">
                 </v-text-field>
                 <v-spacer class="d-flex justify-end">
                     <v-btn
@@ -121,7 +124,7 @@
                             {{ tag }}
                         </v-chip>
                     </v-chip-group>
-                    <v-row class="px-3">
+                    <v-row class="mx-0 mt-0">
                         <v-chip>
                             {{ formated_time_range[0] }}
                         </v-chip>
@@ -173,66 +176,80 @@ export default {
             })
         },
         unique_type: function () {
-            var T = this
-            var mapping = this.raw_program_list.map(function (program) {
-                return {
-                    key: program.EN_ACT_TYPE_NAME,
-                    value: T.use_zh ? program.TC_ACT_TYPE_NAME : program.EN_ACT_TYPE_NAME
-                }
-            })
-            return mapping.filter((value, index, self) => {
-                return self.indexOf(value) === index
-            })
+            const T = this
+            return this.raw_program_list
+                .map(function (program) {
+                    return {
+                        key: program.EN_ACT_TYPE_NAME,
+                        value: T.use_zh ? program.TC_ACT_TYPE_NAME : program.EN_ACT_TYPE_NAME
+                    }
+                })
+                .filter((value, index, self) => {
+                    return self.indexOf(value) === index
+                })
+                .sort((a, b) => a.key.localeCompare(b.key))
         },
         unique_district: function () {
-            var T = this
-            var mapping = this.raw_program_list.map(function (program) {
-                return { key: program.EN_DISTRICT, value: T.use_zh ? program.TC_DISTRICT : program.EN_DISTRICT }
-            })
-            return mapping.filter((value, index, self) => {
-                return self.indexOf(value) === index
-            })
+            const T = this
+            return this.raw_program_list
+                .map(function (program) {
+                    return { key: program.EN_DISTRICT, value: T.use_zh ? program.TC_DISTRICT : program.EN_DISTRICT }
+                })
+                .filter((value, index, self) => {
+                    return self.indexOf(value) === index
+                })
+                .sort((a, b) => a.key.localeCompare(b.key))
         },
         unique_venue: function () {
-            var T = this
-            var mapping = this.raw_program_list.map(function (program) {
-                return { key: program.EN_VENUE, value: T.use_zh ? program.TC_VENUE : program.EN_VENUE }
-            })
-            return mapping.filter((value, index, self) => {
-                return self.indexOf(value) === index
-            })
+            const T = this
+            return this.raw_program_list
+                .map(function (program) {
+                    return {
+                        key: program.EN_VENUE,
+                        district: program.EN_DISTRICT,
+                        value: T.use_zh ? program.TC_VENUE : program.EN_VENUE
+                    }
+                })
+                .filter((value, index, self) => {
+                    return self.indexOf(value) === index
+                })
+                .sort((a, b) => {
+                    return a.district == b.district ? a.key.localeCompare(b.key) : a.district.localeCompare(b.district)
+                })
         },
         unique_enroll: function () {
-            var T = this
-            var code = this.raw_program_list
+            const T = this
+            return this.raw_program_list
                 .map(function (program) {
                     return program.ENROL_METHOD
                 })
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index
                 })
-            return code.map(function (c) {
-                return { key: c, value: T.use_zh ? enroll_dict[c]['zh'] : enroll_dict[c]['en'] }
-            })
+                .sort()
+                .map(function (c) {
+                    return { key: c, value: T.use_zh ? enroll_dict[c]['zh'] : enroll_dict[c]['en'] }
+                })
         },
         unique_target: function () {
-            var T = this
-            var code = this.raw_program_list
+            const T = this
+            return this.raw_program_list
                 .map(function (program) {
                     return program.MIS_TARGET_GRP_Code
                 })
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index
                 })
-            return code.map(function (c) {
-                return { key: c, value: T.use_zh ? target_dict[c]['zh'] : target_dict[c]['en'] }
-            })
+                .sort()
+                .map(function (c) {
+                    return { key: c, value: T.use_zh ? target_dict[c]['zh'] : target_dict[c]['en'] }
+                })
         },
         unique_month: function () {
-            var months = this.raw_program_list.map(function (program) {
-                return program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0]
-            })
-            return months
+            return this.raw_program_list
+                .map(function (program) {
+                    return program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0]
+                })
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index
                 })
@@ -356,7 +373,9 @@ export default {
                     return this.selected_month.includes(program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0])
                 })
             }
+            window.scrollTo(0, 0)
             this.$store.dispatch('set_filtered_program_list', selected_list)
+            this.$store.state.current_tab = 0
         },
         lower_case_compare: function (item, queryText, itemText) {
             return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1
