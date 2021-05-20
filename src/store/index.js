@@ -10,25 +10,18 @@ export default new Vuex.Store({
         lang_zh: true,
         bookmarks: [],
         disclaimer_agreed: false,
+        current_tab: 0,
     },
     mutations: {
         set_raw_program_list(state, payload) {
             state.raw_program_list = payload.sort((a, b) => {
-                var tmp = 0
-                //sort by type
-                if (a.EN_ACT_TYPE_NAME && (tmp = a.EN_ACT_TYPE_NAME.localeCompare(b.EN_ACT_TYPE_NAME)) && tmp != 0)
-                    return tmp
-
-                //sort by name
-                if (a.EN_PGM_NAME && (tmp = a.EN_PGM_NAME.localeCompare(b.EN_PGM_NAME)) && tmp != 0) return tmp
-
-                //sort by district
-                if (a.EN_DISTRICT && (tmp = a.EN_DISTRICT.localeCompare(b.EN_DISTRICT)) && tmp != 0) return tmp
-
-                //sort by venue
-                if (a.EN_VENUE && (tmp = a.EN_VENUE.localeCompare(b.EN_VENUE)) && tmp != 0) return tmp
-
-                return Number(b.PGM_CODE) - Number(a.PGM_CODE)
+                const month_a = a.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0]
+                const month_b = b.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0]
+                if (month_a != month_b) {
+                    return month_b.localeCompare(month_a)
+                } else {
+                    return Number(a.PGM_CODE) - Number(b.PGM_CODE)
+                }
             });
             state.bookmarks = state.bookmarks.map((bookmark_item) => {
                 let updated_item;
@@ -51,6 +44,7 @@ export default new Vuex.Store({
             if (!state.bookmarks.some(program => program.PGM_CODE == payload)) {
                 state.bookmarks.push(state.raw_program_list.find(program => program.PGM_CODE == payload));
             }
+            state.bookmarks.sort((a, b) => Number(a.PGM_CODE) - Number(b.PGM_CODE))
             localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
         },
         remove_bookmark(state, payload) {
