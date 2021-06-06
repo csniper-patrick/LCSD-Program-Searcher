@@ -17,13 +17,13 @@
                     <v-tab-item :transition="false" :reverse-transition="false">
                         <v-card align="center" justify="center" flat class="py-0 ma-0">
                             <v-card-title class="py-1 ma-0">
-                                <strong>{{ $store.state.lang_zh ? '即將/現正接受報名':'Upcoming/Now Open'}}</strong>
+                                <strong>{{ $store.state.lang_zh ? "即將/現正接受報名" : "Upcoming/Now Open" }}</strong>
                             </v-card-title>
                         </v-card>
                         <result_panel :displayed_list="deadline_approaching_bookmarks" />
                         <v-card align="center" justify="center" flat class="py-0 my-0">
                             <v-card-title class="py-1 my-0">
-                                <strong>{{ $store.state.lang_zh ? '已截止/候補':'Closed/Clearing Round'}}</strong>
+                                <strong>{{ $store.state.lang_zh ? "已截止/候補" : "Closed/Clearing Round" }}</strong>
                             </v-card-title>
                         </v-card>
                         <result_panel :displayed_list="deadline_passed_bookmarks" />
@@ -60,71 +60,73 @@
 </template>
 
 <script>
-import search_panel from './components/search_panel.vue'
-import result_panel from './components/result_panel.vue'
-import disclaimer from './components/disclaimer.vue'
-import axios from 'axios'
+import search_panel from "./components/search_panel.vue";
+import result_panel from "./components/result_panel.vue";
+import disclaimer from "./components/disclaimer.vue";
+import axios from "axios";
 
 export default {
-    name: 'App',
+    name: "App",
 
     components: {
         search_panel,
         result_panel,
-        disclaimer
+        disclaimer,
     },
 
     data: () => ({
         loading: true,
-        tabs: ['search', 'saved']
+        tabs: ["search", "saved"],
     }),
     computed: {
         deadline_passed_bookmarks: function () {
             return this.$store.state.bookmarks.filter((program) => {
-                const enroll_deadline = new Date(program.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString())
-                return enroll_deadline < Date.now() - (Date.now() % 86400000)
-            })
+                const enroll_deadline = new Date(
+                    program.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString()
+                );
+                return enroll_deadline < Date.now() - (Date.now() % 86400000);
+            });
         },
         deadline_approaching_bookmarks: function () {
             return this.$store.state.bookmarks
                 .filter((program) => {
                     const enroll_deadline = new Date(
                         program.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString()
-                    )
-                    return enroll_deadline >= Date.now() - (Date.now() % 86400000)
+                    );
+                    return enroll_deadline >= Date.now() - (Date.now() % 86400000);
                 })
                 .sort((a, b) => {
-                    const deadline_a = new Date(a.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString())
-                    const deadline_b = new Date(b.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString())
+                    const deadline_a = new Date(a.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString());
+                    const deadline_b = new Date(b.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString());
                     if (deadline_a != deadline_b) {
-                        return deadline_a - deadline_b
+                        return deadline_a - deadline_b;
                     } else {
-                        return Number(a.PGM_CODE) - Number(b.PGM_CODE)
+                        return Number(a.PGM_CODE) - Number(b.PGM_CODE);
                     }
-                })
-        }
+                });
+        },
     },
     mounted() {
-        this.retrive_raw_prog_list_online()
+        this.retrive_raw_prog_list_online();
     },
     watch: {},
     methods: {
         retrive_raw_prog_list_online: async function () {
             const prog_json =
-                typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== 'undefined'
+                typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== "undefined"
                     ? process.env.VUE_APP_PROG_JSON_PROXY_LINK
-                    : 'https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json'
+                    : "https://www.lcsd.gov.hk/datagovhk/event/leisure_prog.json";
             try {
-                const response = await axios.get(prog_json, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                const response = await axios.get(prog_json, { headers: { "X-Requested-With": "XMLHttpRequest" } });
 
-                await this.$store.dispatch('set_raw_program_list', response.data)
-                this.loading = false
+                await this.$store.dispatch("set_raw_program_list", response.data);
+                this.loading = false;
             } catch (e) {
-                console.log(e)
+                console.log(e);
             }
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="css">
