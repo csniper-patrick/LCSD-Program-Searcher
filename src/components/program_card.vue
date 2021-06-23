@@ -50,7 +50,6 @@
             >
                 <v-icon large>mdi-information-outline</v-icon>
             </v-btn>
-            <program_calendar v-bind:calendar_events="program_calendar_events" />
             <v-btn
                 fab
                 rounded
@@ -68,14 +67,11 @@
 </template>
 
 <script>
-import program_calendar from "./program_calendar.vue";
 export default {
     name: "program_card",
     props: ["program"],
     data: () => ({}),
-    components: {
-        program_calendar,
-    },
+    components: {},
     computed: {
         lang_zh: function () {
             return this.$store.state.lang_zh;
@@ -129,31 +125,6 @@ export default {
                 : tmp.map((date) => {
                       return { m: Number(date.split("/")[1]), d: Number(date.split("/")[0]) };
                   });
-        },
-        program_calendar_events: function () {
-            return {
-                date: {
-                    start: new Date(`${this.program_start_date}T00:00:00+08:00`),
-                    end: new Date(`${this.program_end_date}T00:00:00+08:00`),
-                },
-                day_of_week: this.program.day_of_week,
-                time: {
-                    start: {
-                        h: Number(this.program.PGM_START_TIME.split(":")[0]),
-                        m: Number(this.program.PGM_START_TIME.split(":")[1]),
-                    },
-                    end: {
-                        h: Number(this.program.PGM_END_TIME.split(":")[0]),
-                        m: Number(this.program.PGM_END_TIME.split(":")[1]),
-                    },
-                    str: this.program.PGM_START_TIME + "-" + this.program.PGM_END_TIME,
-                },
-                excluded_date: this.program_excluded_dates,
-                venue: this.program_venue,
-                code: this.program.PGM_CODE,
-                name: this.program_name,
-                url: this.program_link,
-            };
         },
         card_disabled: function () {
             return !this.$store.state.raw_program_list.some((raw) => raw.PGM_CODE == this.program.PGM_CODE);
