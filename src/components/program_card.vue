@@ -50,6 +50,7 @@
             >
                 <v-icon large>mdi-information-outline</v-icon>
             </v-btn>
+            <program_calendar :cal_events_spec="this.program_cal_events_spec" />
             <v-btn
                 fab
                 rounded
@@ -71,67 +72,81 @@ export default {
     name: "program_card",
     props: ["program"],
     data: () => ({}),
-    components: {},
+    components: {
+        program_calendar: () => import("./program_calendar.vue"),
+    },
     computed: {
-        lang_zh: function () {
+        lang_zh: function() {
             return this.$store.state.lang_zh;
         },
-        age_tag: function () {
+        age_tag: function() {
             return this.lang_zh ? "年齡" : "AGE";
         },
-        bookmarked: function () {
-            return this.$store.state.bookmarks.some((program) => program.PGM_CODE == this.program.PGM_CODE);
+        bookmarked: function() {
+            return this.$store.state.bookmarks.some(program => program.PGM_CODE == this.program.PGM_CODE);
         },
-        bookmark_icon: function () {
+        bookmark_icon: function() {
             return this.bookmarked ? "mdi-bookmark-check-outline" : "mdi-bookmark-outline";
         },
-        program_name: function () {
+        program_name: function() {
             return this.lang_zh ? this.program.TC_PGM_NAME : this.program.EN_PGM_NAME;
         },
-        program_district: function () {
+        program_district: function() {
             return this.lang_zh ? this.program.TC_DISTRICT : this.program.EN_DISTRICT;
         },
-        program_venue: function () {
+        program_venue: function() {
             return this.lang_zh ? this.program.TC_VENUE : this.program.EN_VENUE;
         },
-        program_type: function () {
+        program_type: function() {
             return this.lang_zh ? this.program.TC_ACT_TYPE_NAME : this.program.EN_ACT_TYPE_NAME;
         },
-        program_start_date: function () {
+        program_start_date: function() {
             return this.program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
         },
-        program_end_date: function () {
+        program_end_date: function() {
             return this.program.PGM_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
         },
-        program_enroll_start_date: function () {
+        program_enroll_start_date: function() {
             return this.program.ENROL_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
         },
-        program_enroll_end_date: function () {
+        program_enroll_end_date: function() {
             return this.program.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString();
         },
-        program_day: function () {
+        program_day: function() {
             return this.lang_zh ? this.program.TC_DAY : this.program.EN_DAY;
         },
-        program_link: function () {
+        program_link: function() {
             return this.lang_zh ? this.program.TC_URL : this.program.EN_URL;
         },
-        program_map_link: function () {
+        program_map_link: function() {
             return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(this.program_venue);
         },
-        program_excluded_dates: function () {
+        program_excluded_dates: function() {
             var tmp = this.program.TC_DAY.match(/[0-9]+\/[0-9]+/g);
             return tmp == null
                 ? []
-                : tmp.map((date) => {
+                : tmp.map(date => {
                       return { m: Number(date.split("/")[1]), d: Number(date.split("/")[0]) };
                   });
         },
-        card_disabled: function () {
-            return !this.$store.state.raw_program_list.some((raw) => raw.PGM_CODE == this.program.PGM_CODE);
+        program_cal_events_spec: function() {
+            return {
+                name: `${this.program_name}-${this.program.PGM_CODE}`,
+                venue: this.program_venue,
+                start_date: this.program_start_date,
+                start_time: this.program.PGM_START_TIME,
+                end_date: this.program_end_date,
+                end_time: this.program.PGM_END_TIME,
+                week_days: this.program_day,
+                excluded_dates: this.program_excluded_dates,
+            };
+        },
+        card_disabled: function() {
+            return !this.$store.state.raw_program_list.some(raw => raw.PGM_CODE == this.program.PGM_CODE);
         },
     },
     methods: {
-        bookmark_switch: function () {
+        bookmark_switch: function() {
             if (this.bookmarked) {
                 this.$store.commit("remove_bookmark", this.program.PGM_CODE);
             } else {
