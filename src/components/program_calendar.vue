@@ -56,8 +56,8 @@ export default {
             let dates = [];
             const [hour, minute] = this.cal_events_spec.start_time.split(":");
             for (
-                let i = new Date(`${this.cal_events_spec.start_date}T00:00:00`);
-                i <= new Date(`${this.cal_events_spec.end_date}T00:00:00`);
+                let i = new Date(`${this.cal_events_spec.start_date}T00:00:00+0800`);
+                i <= new Date(`${this.cal_events_spec.end_date}T00:00:00+0800`);
                 i.setDate(i.getDate() + 1)
             ) {
                 if (this.cal_events_spec.excluded_dates.some(({ m, d }) => m == i.getMonth() + 1 && d == i.getDate())) {
@@ -79,8 +79,8 @@ export default {
             let dates = [];
             const [hour, minute] = this.cal_events_spec.start_time.split(":");
             for (
-                let i = new Date(`${this.cal_events_spec.start_date}T00:00:00`);
-                i <= new Date(`${this.cal_events_spec.end_date}T00:00:00`);
+                let i = new Date(`${this.cal_events_spec.start_date}T00:00:00+0800`);
+                i <= new Date(`${this.cal_events_spec.end_date}T00:00:00+0800`);
                 i.setDate(i.getDate() + 1)
             ) {
                 if (week_day_val.includes(i.getDay())) {
@@ -94,7 +94,7 @@ export default {
                     date =>
                         !this.program_excluded_dates.some(excluded_date => excluded_date.getTime() == date.getTime())
                 )
-                .map(date => date.toISOString().substr(0, 10));
+                .map(date => new Date(date - date.getTimezoneOffset() * 60000).toISOString().substr(0, 10));
         },
     },
     methods: {
