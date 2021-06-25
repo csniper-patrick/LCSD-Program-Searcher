@@ -24,17 +24,7 @@
         </v-card-text>
         <v-card-actions class="pa-1 ma-0">
             <v-spacer />
-            <v-btn
-                fab
-                rounded
-                small
-                outlined
-                :disabled="card_disabled"
-                class="mx-1"
-                :href="program_map_link"
-                target="_blank"
-                color="primary"
-            >
+            <v-btn fab rounded small outlined class="mx-1" :href="program_map_link" target="_blank" color="primary">
                 <v-icon large>mdi-map-marker-radius-outline</v-icon>
             </v-btn>
             <v-btn
@@ -131,7 +121,7 @@ export default {
         },
         program_cal_events_spec: function() {
             return {
-                name: `${this.program_name}-${this.program.PGM_CODE}`,
+                name: `${this.program_name} - ${this.program.PGM_CODE}`,
                 venue: this.program_venue,
                 start_date: this.program_start_date,
                 start_time: this.program.PGM_START_TIME,
