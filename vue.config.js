@@ -17,8 +17,8 @@ module.exports = {
         name: "康體班小幫手",
         themeColor: "#448aff",
         workboxOptions: {
-            skipWaiting: false,
-            clientsClaim: false,
+            skipWaiting: true,
+            clientsClaim: true,
             runtimeCaching: [
                 {
                     urlPattern:
