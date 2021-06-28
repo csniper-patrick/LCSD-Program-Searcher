@@ -121,7 +121,7 @@ export default {
             });
             //Create ics file and download
             var element = document.createElement("a");
-            element.setAttribute("href", "data:ics/plain;charset=utf-8," + encodeURIComponent(cal.toString()));
+            element.setAttribute("href", "data:text/calendar;charset=utf-8," + encodeURIComponent(cal.toString()));
             element.setAttribute("download", this.cal_events_spec.name + ".ics");
             element.style.display = "none";
             document.body.appendChild(element);
