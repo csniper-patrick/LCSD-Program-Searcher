@@ -113,7 +113,7 @@ export default {
                 start: new Date(`${this.cal_events_spec.start_date}T${this.cal_events_spec.start_time}:00+08:00`),
                 end: new Date(`${this.cal_events_spec.start_date}T${this.cal_events_spec.end_time}:00+08:00`),
                 repeating: {
-                    freq: "DAILY",
+                    freq: "WEEKLY",
                     byDay: this.program_week_days,
                     until: new Date(`${this.cal_events_spec.end_date}T${this.cal_events_spec.end_time}:00+08:00`),
                     exclude: this.program_excluded_dates,
