@@ -79,17 +79,17 @@ export default {
         tabs: ["search", "saved"],
     }),
     computed: {
-        deadline_passed_bookmarks: function () {
-            return this.$store.state.bookmarks.filter((program) => {
+        deadline_passed_bookmarks: function() {
+            return this.$store.state.bookmarks.filter(program => {
                 const enroll_deadline = new Date(
                     program.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString()
                 );
                 return enroll_deadline < Date.now() - (Date.now() % 86400000);
             });
         },
-        deadline_approaching_bookmarks: function () {
+        deadline_approaching_bookmarks: function() {
             return this.$store.state.bookmarks
-                .filter((program) => {
+                .filter(program => {
                     const enroll_deadline = new Date(
                         program.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString()
                     );
@@ -98,8 +98,12 @@ export default {
                 .sort((a, b) => {
                     const deadline_a = new Date(a.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString());
                     const deadline_b = new Date(b.ENROL_END_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString());
+                    const enroll_a = new Date(a.ENROL_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString());
+                    const enroll_b = new Date(b.ENROL_START_DATE.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g).toString());
                     if (deadline_a != deadline_b) {
                         return deadline_a - deadline_b;
+                    } else if (enroll_a != enroll_b) {
+                        return enroll_a - enroll_b;
                     } else {
                         return Number(a.PGM_CODE) - Number(b.PGM_CODE);
                     }
@@ -111,7 +115,7 @@ export default {
     },
     watch: {},
     methods: {
-        retrive_raw_prog_list_online: async function () {
+        retrive_raw_prog_list_online: async function() {
             const prog_json =
                 typeof process.env.VUE_APP_PROG_JSON_PROXY_LINK !== "undefined"
                     ? process.env.VUE_APP_PROG_JSON_PROXY_LINK
