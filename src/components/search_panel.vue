@@ -205,19 +205,19 @@ export default {
         this.use_zh = this.$store.state.lang_zh;
     },
     computed: {
-        raw_program_list: function () {
+        raw_program_list: function() {
             return this.$store.state.raw_program_list;
         },
-        keywords: function () {
+        keywords: function() {
             var list = this.query !== null ? this.query.split(",") : [];
-            return list.map((keyword) => {
+            return list.map(keyword => {
                 return keyword.trim();
             });
         },
-        unique_type: function () {
+        unique_type: function() {
             const T = this;
             return this.raw_program_list
-                .map(function (program) {
+                .map(function(program) {
                     return {
                         key: program.EN_ACT_TYPE_NAME,
                         value: T.use_zh ? program.TC_ACT_TYPE_NAME : program.EN_ACT_TYPE_NAME,
@@ -228,65 +228,63 @@ export default {
                 })
                 .sort((a, b) => a.key.localeCompare(b.key));
         },
-        unique_district: function () {
+        unique_district: function() {
             const T = this;
             return this.raw_program_list
-                .map(function (program) {
+                .map(function(program) {
                     return { key: program.EN_DISTRICT, value: T.use_zh ? program.TC_DISTRICT : program.EN_DISTRICT };
                 })
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index;
                 })
-                .sort((a, b) => a.key.localeCompare(b.key));
+                .sort((a, b) => (a.key && b.key ? a.key.localeCompare(b.key) : 0));
         },
-        unique_venue: function () {
+        unique_venue: function() {
             const T = this;
             return this.raw_program_list
-                .map(function (program) {
+                .map(function(program) {
                     return {
                         key: program.EN_VENUE,
-                        district: program.EN_DISTRICT,
+                        // district: program.EN_DISTRICT,
                         value: T.use_zh ? program.TC_VENUE : program.EN_VENUE,
                     };
                 })
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index;
                 })
-                .sort((a, b) => {
-                    return a.district == b.district ? a.key.localeCompare(b.key) : a.district.localeCompare(b.district);
-                });
+                .sort((a, b) => (a.key && b.key ? a.key.localeCompare(b.key) : 0));
         },
-        unique_enroll: function () {
+        unique_enroll: function() {
             const T = this;
             return this.raw_program_list
-                .map(function (program) {
+                .map(function(program) {
                     return program.ENROL_METHOD;
                 })
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index;
                 })
                 .sort()
-                .map(function (c) {
+                .map(function(c) {
                     return { key: c, value: T.use_zh ? enroll_dict[c]["zh"] : enroll_dict[c]["en"] };
                 });
         },
-        unique_target: function () {
+        unique_target: function() {
             const T = this;
             return this.raw_program_list
-                .map(function (program) {
+                .map(function(program) {
                     return program.MIS_TARGET_GRP_Code;
                 })
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index;
                 })
                 .sort()
-                .map(function (c) {
+                .map(function(c) {
                     return { key: c, value: T.use_zh ? target_dict[c]["zh"] : target_dict[c]["en"] };
                 });
         },
-        unique_month: function () {
+        unique_month: function() {
             return this.raw_program_list
-                .map(function (program) {
+                .map(function(program) {
                     return program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0];
                 })
                 .filter((value, index, self) => {
@@ -294,7 +292,7 @@ export default {
                 })
                 .sort();
         },
-        formated_time_range: function () {
+        formated_time_range: function() {
             var min =
                 String(Math.floor(this.selected_time_range[0] / 60)).padStart(2, "0") +
                 ":" +
@@ -305,7 +303,7 @@ export default {
                 String(Math.floor(this.selected_time_range[1] % 60)).padStart(2, "0");
             return [min, max];
         },
-        is_filtered: function () {
+        is_filtered: function() {
             if (this.selected_type.length > 0) return true;
             if (this.selected_district.length > 0) return true;
             if (this.selected_venue.length > 0) return true;
@@ -320,21 +318,21 @@ export default {
         },
     },
     watch: {
-        use_zh: function (val) {
+        use_zh: function(val) {
             this.$store.commit("switch_lang", val);
         },
-        raw_program_list: async function () {
+        raw_program_list: async function() {
             this.select_program();
         },
     },
     methods: {
-        select_program: async function () {
+        select_program: async function() {
             var selected_list = this.raw_program_list;
             var c;
 
             //select by type
             if (this.selected_type.length != 0) {
-                selected_list = selected_list.filter((program) => {
+                selected_list = selected_list.filter(program => {
                     for (c of this.selected_type) {
                         if (c.localeCompare(program.EN_ACT_TYPE_NAME) == 0) return true;
                     }
@@ -343,7 +341,7 @@ export default {
             }
             //select by district or venue
             if (this.selected_venue.length != 0 || this.selected_district.length != 0) {
-                selected_list = selected_list.filter((program) => {
+                selected_list = selected_list.filter(program => {
                     for (c of this.selected_district) {
                         if (c.localeCompare(program.EN_DISTRICT) == 0) return true;
                     }
@@ -355,7 +353,7 @@ export default {
             }
             //select by enroll method
             if (this.selected_enroll.length != 0) {
-                selected_list = selected_list.filter((program) => {
+                selected_list = selected_list.filter(program => {
                     for (c of this.selected_enroll) {
                         if (c.localeCompare(program.ENROL_METHOD) == 0) return true;
                     }
@@ -364,7 +362,7 @@ export default {
             }
             //select by target
             if (this.selected_target.length != 0) {
-                selected_list = selected_list.filter((program) => {
+                selected_list = selected_list.filter(program => {
                     for (c of this.selected_target) {
                         if (c.localeCompare(program.MIS_TARGET_GRP_Code) == 0) return true;
                     }
@@ -373,7 +371,7 @@ export default {
             }
             //select by keyword
             if (this.keywords.length != 0) {
-                selected_list = selected_list.filter((program) => {
+                selected_list = selected_list.filter(program => {
                     for (c of this.keywords) {
                         for (const property in program) {
                             if (typeof program[property] === "string" && program[property].includes(c)) return true;
@@ -384,19 +382,19 @@ export default {
             }
             //select Age
             if (this.selected_age != null && this.selected_age >= 0) {
-                selected_list = selected_list.filter((program) => {
+                selected_list = selected_list.filter(program => {
                     return Number(program.MIN_AGE) <= this.selected_age && this.selected_age <= Number(program.MAX_AGE);
                 });
             }
             //select time range
-            selected_list = selected_list.filter((program) => {
+            selected_list = selected_list.filter(program => {
                 return (
                     this.selected_time_range[0] <= this.time_str_to_min(program.PGM_START_TIME) &&
                     this.selected_time_range[1] >= this.time_str_to_min(program.PGM_END_TIME)
                 );
             });
             //select day_of_week
-            selected_list = selected_list.filter((program) => {
+            selected_list = selected_list.filter(program => {
                 if (typeof program.day_of_week == "undefined") {
                     program.day_of_week = this.extract_day_array(program.TC_DAY);
                 }
@@ -408,22 +406,21 @@ export default {
             });
             //select month
             if (this.selected_month.length > 0) {
-                selected_list = selected_list.filter((program) => {
+                selected_list = selected_list.filter(program => {
                     return this.selected_month.includes(program.PGM_START_DATE.match(/[0-9]{4}-[0-9]{2}/g)[0]);
                 });
             }
-            window.scrollTo(0, 0);
+            if (this.$store.state.current_tab == 0) window.scrollTo(0, 0);
             this.$store.dispatch("set_filtered_program_list", selected_list);
-            this.$store.state.current_tab = 0;
         },
-        lower_case_compare: function (item, queryText, itemText) {
+        lower_case_compare: function(item, queryText, itemText) {
             return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1;
         },
-        time_str_to_min: function (time_str) {
+        time_str_to_min: function(time_str) {
             var hr_min = time_str.split(":");
             return Number(hr_min[0]) * 60 + Number(hr_min[1]);
         },
-        extract_day_array: function (tc_day_str) {
+        extract_day_array: function(tc_day_str) {
             var cmp_str = ["日", "一", "二", "三", "四", "五", "六"];
             var day_of_week = [];
             for (var i = 0; i < 7; i++) {
@@ -433,7 +430,7 @@ export default {
             }
             return day_of_week;
         },
-        set_default: async function () {
+        set_default: async function() {
             this.selected_type = [];
             this.selected_district = [];
             this.selected_venue = [];
