@@ -111,7 +111,7 @@ export default {
         },
     },
     mounted() {
-        this.retrive_raw_prog_list_online();
+        this.$nextTick(this.retrive_raw_prog_list_online);
     },
     watch: {},
     methods: {
